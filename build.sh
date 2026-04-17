@@ -1,20 +1,20 @@
 #!/bin/bash
 set -e
 
-# 1. Instala o Flutter se não existir
+# 1. Instalar Flutter
 if [ ! -d "flutter" ]; then
   git clone https://github.com/flutter/flutter.git -b stable
 fi
 
-# 2. Configura o PATH
+# 2. Configurar PATH
 export PATH="$PATH:$(pwd)/flutter/bin"
 
-# 3. HABILITAR WEB (O passo que estava faltando para reconhecer a flag)
+# 3. Forçar o download dos artefatos de Web (O segredo para reconhecer a flag)
 flutter config --enable-web
+flutter precache --web
 
-# 4. Baixar dependências
+# 4. Baixar dependências do seu projeto
 flutter pub get
 
-# 5. Build Final
-# Removi o '=' e usei a sintaxe mais aceita em servidores CI
+# 5. Build com a flag
 flutter build web --release --web-renderer canvaskit
