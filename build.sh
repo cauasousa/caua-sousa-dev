@@ -1,17 +1,20 @@
 #!/bin/bash
-# Interrompe o script se houver erro
 set -e
 
-# 1. Instala o Flutter caso não exista
+# 1. Instala o Flutter se não existir
 if [ ! -d "flutter" ]; then
   git clone https://github.com/flutter/flutter.git -b stable
 fi
 
-# 2. Configura o PATH de forma absoluta
+# 2. Configura o PATH
 export PATH="$PATH:$(pwd)/flutter/bin"
 
-# 3. Baixa as dependências do seu projeto (Essencial para não dar erro 64)
+# 3. HABILITAR WEB (O passo que estava faltando para reconhecer a flag)
+flutter config --enable-web
+
+# 4. Baixar dependências
 flutter pub get
 
-# 4. Build com sintaxe corrigida
-flutter build web --release --web-renderer=canvaskit
+# 5. Build Final
+# Removi o '=' e usei a sintaxe mais aceita em servidores CI
+flutter build web --release --web-renderer canvaskit
