@@ -1,22 +1,21 @@
 #!/bin/bash
 set -e
 
-# 1. Instalar Flutter se não existir
+# 1. Instalar Flutter (usando o canal beta para garantir compatibilidade web)
 if [ ! -d "flutter" ]; then
-  git clone https://github.com/flutter/flutter.git -b stable
+  git clone https://github.com/flutter/flutter.git -b beta
 fi
 
 # 2. Configurar PATH
 export PATH="$PATH:$(pwd)/flutter/bin"
 
-# 3. Forçar o Flutter a se "reconhecer" como Web
+# 3. Configurações de ambiente
 flutter config --enable-web
-flutter precache --web
+flutter doctor
 
-# 4. Baixar dependências
+# 4. Limpeza e Dependências
+flutter clean
 flutter pub get
 
-# 5. Build (Trocando a flag por uma alternativa caso a versão tenha mudado)
-# Se o erro 64 persistir aqui, o Flutter está em uma versão que usa 
-# apenas 'flutter build web' e assume o renderer automaticamente.
-flutter build web --release --wasm --web-renderer canvaskit
+# 5. Build Simplificado (Sem a flag que está travando)
+flutter build web --release
