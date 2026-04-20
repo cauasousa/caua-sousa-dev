@@ -180,7 +180,7 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _socialIcon(BuildContext context, IconData icon, String url) {
+  Widget _socialIcon(BuildContext context, FaIconData icon, String url) {
     return Container(
       margin: const EdgeInsets.only(right: 15),
       child: IconButton(
