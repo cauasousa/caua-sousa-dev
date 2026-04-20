@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_portfolio/feature/presentation/bloc/hero_section/hero_section_cubit.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/hero_section/hero_section_state.dart';
+import 'package:flutter_portfolio/feature/presentation/bloc/social_links/social_links_cubit.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -24,151 +25,168 @@ class HeroSection extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => HeroSectionCubit()..start(),
-      child: BlocBuilder<HeroSectionCubit, HeroSectionState>(
-        builder: (context, state) {
-          final leftContent = ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 640),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Olá, eu sou',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: greetingFontSize,
-                    fontWeight: FontWeight.bold,
+      child: BlocProvider(
+        create: (_) => SocialLinksCubit(),
+        child: BlocBuilder<HeroSectionCubit, HeroSectionState>(
+          builder: (context, state) {
+            final leftContent = ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 640),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Olá, eu sou',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: greetingFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: roleFontSize * 2.35,
-                  child: Stack(
-                    children: [
-                      Text(
-                        _formatRoleText(state.fullText),
-                        style: TextStyle(
-                          fontSize: roleFontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.transparent,
-                          height: 1.08,
-                        ),
-                      ),
-                      ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [
-                            Color(0xFF34D399),
-                            Color(0xFF22D3EE),
-                            Color(0xFF60A5FA),
-                          ],
-                        ).createShader(Offset.zero & bounds.size),
-                        child: Text(
-                          '${_formatRoleText(state.currentText)}${state.showCursor ? '|' : ' '}',
+                  SizedBox(
+                    height: roleFontSize * 2.35,
+                    child: Stack(
+                      children: [
+                        Text(
+                          _formatRoleText(state.fullText),
                           style: TextStyle(
-                            color: Colors.white,
                             fontSize: roleFontSize,
                             fontWeight: FontWeight.bold,
+                            color: Colors.transparent,
                             height: 1.08,
                           ),
                         ),
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [
+                              Color(0xFF34D399),
+                              Color(0xFF22D3EE),
+                              Color(0xFF60A5FA),
+                            ],
+                          ).createShader(Offset.zero & bounds.size),
+                          child: Text(
+                            '${_formatRoleText(state.currentText)}${state.showCursor ? '|' : ' '}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: roleFontSize,
+                              fontWeight: FontWeight.bold,
+                              height: 1.08,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Sou desenvolvedor Full Stack e mestrando em Engenharia de IA no ISEP, graduando em Ciência da Computação pelo IFMA. Desenvolvo aplicações web e mobile com Flutter, integradas a backends em Python (FastAPI) e Firebase, com foco em escalabilidade e performance.',
+                    style: TextStyle(
+                      color: const Color(0xFFCBD5E1),
+                      fontSize: descriptionFontSize,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Row(
+                    children: [
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.github,
+                        'https://github.com',
+                      ),
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.linkedin,
+                        'https://linkedin.com',
+                      ),
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.whatsapp,
+                        'https://wa.me',
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Sou desenvolvedor Full Stack e mestrando em Engenharia de IA no ISEP, graduando em Ciência da Computação pelo IFMA. Desenvolvo aplicações web e mobile com Flutter, integradas a backends em Python (FastAPI) e Firebase, com foco em escalabilidade e performance.',
-                  style: TextStyle(
-                    color: const Color(0xFFCBD5E1),
-                    fontSize: descriptionFontSize,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                Row(
-                  children: [
-                    _socialIcon(FontAwesomeIcons.github),
-                    _socialIcon(FontAwesomeIcons.linkedin),
-                    _socialIcon(FontAwesomeIcons.whatsapp),
+                  const SizedBox(height: 30),
+                  _actionButton(),
+                ],
+              ),
+            );
+
+            return Container(
+              width: double.infinity,
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height,
+              ),
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.center,
+                  radius: 1.5,
+                  colors: [
+                    Color(0xFF172554),
+                    Color(0xFF020617),
                   ],
                 ),
-                const SizedBox(height: 30),
-                _actionButton(),
-              ],
-            ),
-          );
-
-          return Container(
-            width: double.infinity,
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.center,
-                radius: 1.5,
-                colors: [
-                  Color(0xFF172554),
-                  Color(0xFF020617),
-                ],
               ),
-            ),
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: contentMargin),
-              padding: EdgeInsets.symmetric(
-                horizontal: contentPadding,
-                vertical: isDesktop ? 120 : 100,
-              ),
-              child: Column(
-                children: [
-                  if (isDesktop)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: leftContent,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: contentMargin),
+                padding: EdgeInsets.symmetric(
+                  horizontal: contentPadding,
+                  vertical: isDesktop ? 120 : 100,
+                ),
+                child: Column(
+                  children: [
+                    if (isDesktop)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: leftContent,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 32),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: _buildAvatar(isDesktop: true),
+                          const SizedBox(width: 32),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: _buildAvatar(isDesktop: true),
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  else
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: 50,
-                      runSpacing: 40,
-                      children: [
-                        leftContent,
-                        _buildAvatar(isDesktop: false),
-                      ],
+                        ],
+                      )
+                    else
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 50,
+                        runSpacing: 40,
+                        children: [
+                          leftContent,
+                          _buildAvatar(isDesktop: false),
+                        ],
+                      ),
+                    const SizedBox(height: 90),
+                    const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Color(0xFF34D399),
+                      size: 40,
                     ),
-                  const SizedBox(height: 90),
-                  const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Color(0xFF34D399),
-                    size: 40,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _socialIcon(IconData icon) {
+  Widget _socialIcon(BuildContext context, IconData icon, String url) {
     return Container(
       margin: const EdgeInsets.only(right: 15),
       child: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          context.read<SocialLinksCubit>().openLink(url);
+        },
         icon: FaIcon(icon, color: const Color(0xFFCBD5E1), size: 28),
         style: IconButton.styleFrom(
           backgroundColor: Colors.white.withValues(alpha: 0.05),
