@@ -91,17 +91,17 @@ class HeroSection extends StatelessWidget {
                       _socialIcon(
                         context,
                         FontAwesomeIcons.github,
-                        'https://github.com',
+                        'https://github.com/cauasousa/',
                       ),
                       _socialIcon(
                         context,
                         FontAwesomeIcons.linkedin,
-                        'https://linkedin.com',
+                        'https://www.linkedin.com/in/cau%C3%A3-de-sousa-lima-9734a7259/',
                       ),
                       _socialIcon(
                         context,
                         FontAwesomeIcons.whatsapp,
-                        'https://wa.me',
+                        'https://wa.me/+351928417031',
                       ),
                     ],
                   ),
