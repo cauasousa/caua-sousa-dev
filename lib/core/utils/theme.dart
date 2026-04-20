@@ -30,10 +30,8 @@ class AppTheme {
         primary: AppColors.accentTeal, // Destaque principal
         secondary: AppColors.buttonBase, // Componentes secundários
         surface: AppColors.surface,
-        background: AppColors.background,
         onPrimary: Colors.white,
         onSurface: AppColors.textPrimary,
-        onBackground: AppColors.textPrimary,
       ),
 
       // Configuração de Tipografia
