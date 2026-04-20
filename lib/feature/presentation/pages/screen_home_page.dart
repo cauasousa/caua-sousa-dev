@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
 
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_bloc.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_event.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/navbar_section.dart';
+import 'package:flutter_portfolio/feature/presentation/bloc/projects/projects_cubit.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/hero_section/hero_section.dart';
+import 'package:flutter_portfolio/feature/presentation/widgets/projects/projects_section.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/navbar/custom_navbar.dart';
 
 class ScreenHomePage extends StatefulWidget {
@@ -15,7 +18,9 @@ class ScreenHomePage extends StatefulWidget {
 }
 
 class _ScreenHomePageState extends State<ScreenHomePage> {
-  final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<double> _heroScrollProgress = ValueNotifier<double>(0);
+  late final ProjectsCubit _projectsCubit;
+  NavbarSection? _lastSection;
 
   final Map<NavbarSection, GlobalKey> _sectionKeys = {
     NavbarSection.inicio: GlobalKey(),
@@ -28,7 +33,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _projectsCubit = ProjectsCubit()..loadProjects();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _syncActiveSectionWithViewport();
     });
@@ -36,13 +41,21 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _projectsCubit.close();
+    _heroScrollProgress.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
+  void _onScrollMetrics(ScrollMetrics metrics) {
+    final viewportHeight = metrics.viewportDimension;
+    final targetProgress = viewportHeight <= 0
+        ? 0.0
+        : (metrics.pixels / viewportHeight).clamp(0.0, 1.0);
+
+    if ((_heroScrollProgress.value - targetProgress).abs() > 0.004) {
+      _heroScrollProgress.value = targetProgress;
+    }
+
     _syncActiveSectionWithViewport();
   }
 
@@ -71,6 +84,11 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
       }
     }
 
+    if (active == _lastSection) {
+      return;
+    }
+
+    _lastSection = active;
     context.read<CustomNavbarBloc>().onEvent(NavbarSectionChanged(active));
   }
 
@@ -82,8 +100,8 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
 
     await Scrollable.ensureVisible(
       sectionContext,
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeOutCubic,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOutQuart,
       alignment: 0.05,
     );
   }
@@ -110,37 +128,66 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
   Widget _buildInicioSection() {
     return KeyedSubtree(
       key: _sectionKeys[NavbarSection.inicio],
-      child: const HeroSection(),
+      child: HeroSection(scrollProgressListenable: _heroScrollProgress),
+    );
+  }
+
+  Widget _buildProjetosSection() {
+    return KeyedSubtree(
+      key: _sectionKeys[NavbarSection.projetos],
+      child: BlocProvider.value(
+        value: _projectsCubit,
+        child: const ProjectsSection(),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 1020;
+    final isMenuOpen =
+        context.select((CustomNavbarBloc bloc) => bloc.state.isMobileMenuOpen);
+    final appBarHeight = isMobile && isMenuOpen ? 438.0 : 78.0;
+
     return Scaffold(
+      backgroundColor: const Color(0xFF0A0A0A),
       extendBodyBehindAppBar: true,
-      appBar: CustomNavbar(onSectionTap: _scrollToSection),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            _buildInicioSection(),
-            _buildSection(
-              key: _sectionKeys[NavbarSection.sobre]!,
-              title: 'Sobre',
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(appBarHeight),
+        child: CustomNavbar(onSectionTap: _scrollToSection),
+      ),
+      body: DynMouseScroll(
+        durationMS: 90,
+        builder: (context, controller, physics) =>
+            NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification.depth == 0) {
+              _onScrollMetrics(notification.metrics);
+            }
+            return false;
+          },
+          child: SingleChildScrollView(
+            controller: controller,
+            physics: physics,
+            child: Column(
+              children: [
+                _buildInicioSection(),
+                _buildSection(
+                  key: _sectionKeys[NavbarSection.sobre]!,
+                  title: 'Sobre',
+                ),
+                _buildSection(
+                  key: _sectionKeys[NavbarSection.habilidades]!,
+                  title: 'Habilidades',
+                ),
+                _buildProjetosSection(),
+                _buildSection(
+                  key: _sectionKeys[NavbarSection.contato]!,
+                  title: 'Contato',
+                ),
+              ],
             ),
-            _buildSection(
-              key: _sectionKeys[NavbarSection.habilidades]!,
-              title: 'Habilidades',
-            ),
-            _buildSection(
-              key: _sectionKeys[NavbarSection.projetos]!,
-              title: 'Projetos',
-            ),
-            _buildSection(
-              key: _sectionKeys[NavbarSection.contato]!,
-              title: 'Contato',
-            ),
-          ],
+          ),
         ),
       ),
     );

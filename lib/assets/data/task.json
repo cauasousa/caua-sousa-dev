@@ -1,0 +1,77 @@
+{
+    "projects": [
+        {
+            "id": "p01",
+            "title": "Rocket League",
+            "description": "Trabalho com materiais, shaders e performance em Unreal Engine para um jogo competitivo.",
+            "type": "Released",
+            "tags": [
+                "UNREAL",
+                "GAME",
+                "3D",
+                "SHADERS"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        },
+        {
+            "id": "p02",
+            "title": "Tamagotchi Toy-Like",
+            "description": "Projeto completo de pipeline 3D com modelagem, animação e interacao em tempo real.",
+            "type": "Personal",
+            "tags": [
+                "UNREAL",
+                "3D",
+                "SDF"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        },
+        {
+            "id": "p03",
+            "title": "The Boys Trigger Warning",
+            "description": "Experiencia VR com foco em combate dinamico e interacao por movimento.",
+            "type": "Released",
+            "tags": [
+                "UNITY",
+                "VR",
+                "GAME"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        },
+        {
+            "id": "p04",
+            "title": "Flower Lake",
+            "description": "Sandbox visual com compute shader, vegetacao procedural e renderizacao customizada.",
+            "type": "Personal",
+            "tags": [
+                "UNITY",
+                "3D",
+                "SHADER"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        },
+        {
+            "id": "p05",
+            "title": "Fiat Fastback WebGL",
+            "description": "Componente 3D interativo para campanha web com visualizacao em tempo real.",
+            "type": "Released",
+            "tags": [
+                "THREEJS",
+                "WEBGL",
+                "3D"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        },
+        {
+            "id": "p06",
+            "title": "Space Mavericks",
+            "description": "Landing interativa com foco em performance e impacto visual cinematografico.",
+            "type": "Personal",
+            "tags": [
+                "WEBGL",
+                "THREEJS",
+                "UI"
+            ],
+            "image": "lib/assets/images/image-portfolio.png"
+        }
+    ]
+}

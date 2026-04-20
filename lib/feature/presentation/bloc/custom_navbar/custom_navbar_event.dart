@@ -9,3 +9,11 @@ class NavbarSectionChanged extends CustomNavbarEvent {
 
   final NavbarSection section;
 }
+
+class NavbarMenuToggled extends CustomNavbarEvent {
+  const NavbarMenuToggled();
+}
+
+class NavbarMenuClosed extends CustomNavbarEvent {
+  const NavbarMenuClosed();
+}

@@ -8,10 +8,28 @@ class CustomNavbarBloc extends Cubit<CustomNavbarState> {
 
   void onEvent(CustomNavbarEvent event) {
     if (event is NavbarSectionChanged) {
-      if (state.activeSection == event.section) {
+      if (state.activeSection == event.section && !state.isMobileMenuOpen) {
         return;
       }
-      emit(state.copyWith(activeSection: event.section));
+      emit(
+        state.copyWith(
+          activeSection: event.section,
+          isMobileMenuOpen: false,
+        ),
+      );
+      return;
+    }
+
+    if (event is NavbarMenuToggled) {
+      emit(state.copyWith(isMobileMenuOpen: !state.isMobileMenuOpen));
+      return;
+    }
+
+    if (event is NavbarMenuClosed) {
+      if (!state.isMobileMenuOpen) {
+        return;
+      }
+      emit(state.copyWith(isMobileMenuOpen: false));
     }
   }
 }

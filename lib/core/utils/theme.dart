@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // --- Novas Cores Escolhidas ---
-  static const Color background = Color(0xFF020617); // Fundo da página
+  static const Color background = Color(0xFF0A0A0A); // Fundo da página
   static const Color buttonBase = Color(0xFF1D2432); // Botão padrão
   static const Color accentTeal =
       Color(0xFF13988D); // Botão destaque / Destaques
