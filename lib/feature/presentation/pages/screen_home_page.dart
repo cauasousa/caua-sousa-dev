@@ -47,10 +47,10 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
   }
 
   void _onScrollMetrics(ScrollMetrics metrics) {
-    final viewportHeight = metrics.viewportDimension;
-    final targetProgress = viewportHeight <= 0
-        ? 0.0
-        : (metrics.pixels / viewportHeight).clamp(0.0, 1.0);
+    // Keep transition speed consistent across screen sizes.
+    const heroTransitionDistance = 520.0;
+    final targetProgress =
+        (metrics.pixels / heroTransitionDistance).clamp(0.0, 1.0);
 
     if ((_heroScrollProgress.value - targetProgress).abs() > 0.004) {
       _heroScrollProgress.value = targetProgress;
@@ -109,12 +109,14 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
   Widget _buildSection({
     required GlobalKey key,
     required String title,
+    double verticalPadding = 48,
   }) {
     return Container(
       key: key,
+      color: const Color(0xFF0A0A0A),
       width: double.infinity,
       constraints: const BoxConstraints(minHeight: 600),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: verticalPadding),
       child: Align(
         alignment: Alignment.topLeft,
         child: Text(
@@ -175,6 +177,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
                 _buildSection(
                   key: _sectionKeys[NavbarSection.sobre]!,
                   title: 'Sobre',
+                  verticalPadding: 8,
                 ),
                 _buildSection(
                   key: _sectionKeys[NavbarSection.habilidades]!,

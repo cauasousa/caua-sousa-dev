@@ -19,10 +19,8 @@ class CustomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    final navBgColor = colorScheme.surface;
-    final textColor = colorScheme.onSurface;
+    final navBgColor = const Color(0xFF0A0A0A);
+    final textColor = Colors.white;
     final isMobile = MediaQuery.of(context).size.width < 1020;
 
     return BlocBuilder<CustomNavbarBloc, CustomNavbarState>(
@@ -60,7 +58,7 @@ class CustomNavbar extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: navBgColor.withValues(alpha: 0.90),
+                    color: navBgColor.withValues(alpha: 0.50),
                     border: Border(
                       bottom: BorderSide(
                         color: Colors.white.withValues(alpha: 0.05),
@@ -166,7 +164,7 @@ class CustomNavbar extends StatelessWidget {
                           width: double.infinity,
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
-                            color: navBgColor.withValues(alpha: 0.95),
+                            color: navBgColor.withValues(alpha: 0.78),
                             border: Border(
                               top: BorderSide(
                                 color: Colors.white.withValues(alpha: 0.08),
