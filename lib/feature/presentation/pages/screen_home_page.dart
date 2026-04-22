@@ -5,10 +5,15 @@ import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_bloc.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_event.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/navbar_section.dart';
+import 'package:flutter_portfolio/feature/presentation/bloc/about/about_cubit.dart';
+import 'package:flutter_portfolio/feature/presentation/widgets/contact/contact_section.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/projects/projects_cubit.dart';
+import 'package:flutter_portfolio/feature/presentation/widgets/about/about_section.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/hero_section/hero_section.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/projects/projects_section.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/navbar/custom_navbar.dart';
+
+import '../widgets/contact/footer.dart';
 
 class ScreenHomePage extends StatefulWidget {
   const ScreenHomePage({super.key});
@@ -19,20 +24,22 @@ class ScreenHomePage extends StatefulWidget {
 
 class _ScreenHomePageState extends State<ScreenHomePage> {
   final ValueNotifier<double> _heroScrollProgress = ValueNotifier<double>(0);
+  final ValueNotifier<double> _aboutScrollProgress = ValueNotifier<double>(0);
+  late final AboutCubit _aboutCubit;
   late final ProjectsCubit _projectsCubit;
   NavbarSection? _lastSection;
 
   final Map<NavbarSection, GlobalKey> _sectionKeys = {
-    NavbarSection.inicio: GlobalKey(),
-    NavbarSection.sobre: GlobalKey(),
-    NavbarSection.habilidades: GlobalKey(),
-    NavbarSection.projetos: GlobalKey(),
-    NavbarSection.contato: GlobalKey(),
+    NavbarSection.home: GlobalKey(),
+    NavbarSection.project: GlobalKey(),
+    NavbarSection.about: GlobalKey(),
+    NavbarSection.contact: GlobalKey(),
   };
 
   @override
   void initState() {
     super.initState();
+    _aboutCubit = AboutCubit();
     _projectsCubit = ProjectsCubit()..loadProjects();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _syncActiveSectionWithViewport();
@@ -41,8 +48,10 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
 
   @override
   void dispose() {
+    _aboutCubit.close();
     _projectsCubit.close();
     _heroScrollProgress.dispose();
+    _aboutScrollProgress.dispose();
     super.dispose();
   }
 
@@ -56,7 +65,34 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
       _heroScrollProgress.value = targetProgress;
     }
 
+    _updateAboutRevealProgress(metrics.viewportDimension);
+
     _syncActiveSectionWithViewport();
+  }
+
+  void _updateAboutRevealProgress(double viewportHeight) {
+    if (!mounted || viewportHeight <= 0) {
+      return;
+    }
+
+    final aboutContext = _sectionKeys[NavbarSection.about]?.currentContext;
+    if (aboutContext == null) {
+      return;
+    }
+
+    final renderBox = aboutContext.findRenderObject();
+    if (renderBox is! RenderBox) {
+      return;
+    }
+
+    final top = renderBox.localToGlobal(Offset.zero).dy;
+    final start = viewportHeight * 0.92;
+    final end = viewportHeight * 0.42;
+    final progress = ((start - top) / (start - end)).clamp(0.0, 1.0);
+
+    if ((_aboutScrollProgress.value - progress).abs() > 0.004) {
+      _aboutScrollProgress.value = progress;
+    }
   }
 
   void _syncActiveSectionWithViewport() {
@@ -65,7 +101,7 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
     }
 
     const triggerLine = 120.0;
-    NavbarSection active = NavbarSection.inicio;
+    NavbarSection active = NavbarSection.home;
 
     for (final section in NavbarSection.values) {
       final keyContext = _sectionKeys[section]?.currentContext;
@@ -106,41 +142,40 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
     );
   }
 
-  Widget _buildSection({
-    required GlobalKey key,
-    required String title,
-    double verticalPadding = 48,
-  }) {
-    return Container(
-      key: key,
-      color: const Color(0xFF0A0A0A),
-      width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 600),
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: verticalPadding),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
+  Widget _buildHomeSection() {
+    return KeyedSubtree(
+      key: _sectionKeys[NavbarSection.home],
+      child: HeroSection(
+        scrollProgressListenable: _heroScrollProgress,
+        onExplore: () => _scrollToSection(NavbarSection.project),
       ),
     );
   }
 
-  Widget _buildInicioSection() {
+  Widget _buildProjectSection() {
     return KeyedSubtree(
-      key: _sectionKeys[NavbarSection.inicio],
-      child: HeroSection(scrollProgressListenable: _heroScrollProgress),
-    );
-  }
-
-  Widget _buildProjetosSection() {
-    return KeyedSubtree(
-      key: _sectionKeys[NavbarSection.projetos],
+      key: _sectionKeys[NavbarSection.project],
       child: BlocProvider.value(
         value: _projectsCubit,
         child: const ProjectsSection(),
       ),
+    );
+  }
+
+  Widget _buildAboutSection() {
+    return KeyedSubtree(
+      key: _sectionKeys[NavbarSection.about],
+      child: BlocProvider.value(
+        value: _aboutCubit,
+        child: AboutSection(scrollProgressListenable: _aboutScrollProgress),
+      ),
+    );
+  }
+
+  Widget _buildContactSection() {
+    return KeyedSubtree(
+      key: _sectionKeys[NavbarSection.contact],
+      child: const ContactSection(),
     );
   }
 
@@ -173,21 +208,11 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
             physics: physics,
             child: Column(
               children: [
-                _buildInicioSection(),
-                _buildSection(
-                  key: _sectionKeys[NavbarSection.sobre]!,
-                  title: 'Sobre',
-                  verticalPadding: 8,
-                ),
-                _buildSection(
-                  key: _sectionKeys[NavbarSection.habilidades]!,
-                  title: 'Habilidades',
-                ),
-                _buildProjetosSection(),
-                _buildSection(
-                  key: _sectionKeys[NavbarSection.contato]!,
-                  title: 'Contato',
-                ),
+                _buildHomeSection(),
+                _buildProjectSection(),
+                _buildAboutSection(),
+                _buildContactSection(),
+                Footer(onNavigate: _scrollToSection),
               ],
             ),
           ),

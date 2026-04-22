@@ -59,53 +59,43 @@ class CustomNavbar extends StatelessWidget implements PreferredSizeWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               _navItem(
-                                "Início",
+                                "Home",
                                 textColor,
                                 isActive:
-                                    state.activeSection == NavbarSection.inicio,
+                                    state.activeSection == NavbarSection.home,
                                 onTap: () => _onNavTap(
                                   context,
-                                  NavbarSection.inicio,
+                                  NavbarSection.home,
                                 ),
                               ),
                               _navItem(
-                                "Sobre",
+                                "Project",
+                                textColor,
+                                isActive: state.activeSection ==
+                                    NavbarSection.project,
+                                onTap: () => _onNavTap(
+                                  context,
+                                  NavbarSection.project,
+                                ),
+                              ),
+                              _navItem(
+                                "About",
                                 textColor,
                                 isActive:
-                                    state.activeSection == NavbarSection.sobre,
+                                    state.activeSection == NavbarSection.about,
                                 onTap: () => _onNavTap(
                                   context,
-                                  NavbarSection.sobre,
+                                  NavbarSection.about,
                                 ),
                               ),
                               _navItem(
-                                "Habilidades",
+                                "Contact",
                                 textColor,
                                 isActive: state.activeSection ==
-                                    NavbarSection.habilidades,
+                                    NavbarSection.contact,
                                 onTap: () => _onNavTap(
                                   context,
-                                  NavbarSection.habilidades,
-                                ),
-                              ),
-                              _navItem(
-                                "Projetos",
-                                textColor,
-                                isActive: state.activeSection ==
-                                    NavbarSection.projetos,
-                                onTap: () => _onNavTap(
-                                  context,
-                                  NavbarSection.projetos,
-                                ),
-                              ),
-                              _navItem(
-                                "Contato",
-                                textColor,
-                                isActive: state.activeSection ==
-                                    NavbarSection.contato,
-                                onTap: () => _onNavTap(
-                                  context,
-                                  NavbarSection.contato,
+                                  NavbarSection.contact,
                                 ),
                               ),
                             ],
@@ -180,7 +170,6 @@ class _NavItemState extends State<_NavItem> {
   Widget build(BuildContext context) {
     final isHighlighted = widget.isActive || _isHovered;
     final textStyle = TextStyle(
-      fontFamily: 'ExoRegular',
       fontSize: 15,
       fontWeight: widget.isActive ? FontWeight.w700 : FontWeight.w500,
       letterSpacing: widget.isActive ? 0.2 : 0,

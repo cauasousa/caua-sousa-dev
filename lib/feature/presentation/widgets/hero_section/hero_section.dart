@@ -13,9 +13,11 @@ class HeroSection extends StatefulWidget {
   const HeroSection({
     super.key,
     required this.scrollProgressListenable,
+    required this.onExplore,
   });
 
   final ValueListenable<double> scrollProgressListenable;
+  final VoidCallback onExplore;
 
   @override
   State<HeroSection> createState() => _HeroSectionState();
@@ -40,7 +42,7 @@ class _HeroSectionState extends State<HeroSection> {
   }
 
   String _formatRoleText(String value) {
-    return value.replaceFirst('Desenvolvedor ', 'Desenvolvedor\n');
+    return value.replaceFirst('Full Stack Developer', 'Full Stack\nDeveloper');
   }
 
   @override
@@ -62,83 +64,86 @@ class _HeroSectionState extends State<HeroSection> {
         builder: (context, state) {
           final leftContent = ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 640),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Olá, eu sou',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: greetingFontSize,
-                    fontWeight: FontWeight.bold,
+            child: Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hello, I am',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: greetingFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: roleFontSize * 2.35,
-                  child: Stack(
-                    children: [
-                      Text(
-                        _formatRoleText(state.fullText),
-                        style: TextStyle(
-                          fontSize: roleFontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.transparent,
-                          height: 1.08,
-                        ),
-                      ),
-                      ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [
-                            Color(0xFF34D399),
-                            Color(0xFF22D3EE),
-                            Color(0xFF60A5FA),
-                          ],
-                        ).createShader(Offset.zero & bounds.size),
-                        child: Text(
-                          '${_formatRoleText(state.currentText)}${state.showCursor ? '|' : ' '}',
+                  SizedBox(
+                    height: roleFontSize * 2.35,
+                    child: Stack(
+                      children: [
+                        Text(
+                          _formatRoleText(state.fullText),
                           style: TextStyle(
-                            color: Colors.white,
                             fontSize: roleFontSize,
                             fontWeight: FontWeight.bold,
+                            color: Colors.transparent,
                             height: 1.08,
                           ),
                         ),
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [
+                              Color(0xFF34D399),
+                              Color(0xFF22D3EE),
+                              Color(0xFF60A5FA),
+                            ],
+                          ).createShader(Offset.zero & bounds.size),
+                          child: Text(
+                            '${_formatRoleText(state.currentText)}${state.showCursor ? '|' : ' '}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: roleFontSize,
+                              fontWeight: FontWeight.bold,
+                              height: 1.08,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "I am a Full Stack Developer and a Master's student in AI Engineering at ISEP, while also completing my Bachelor's in Computer Science at IFMA. I develop web and mobile applications using Flutter, integrated with Python (FastAPI) and Firebase backends, focusing on scalability and performance.",
+                    style: TextStyle(
+                      color: const Color(0xFF94A3B8),
+                      fontSize: descriptionFontSize,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Row(
+                    children: [
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.github,
+                        'https://github.com/cauasousa/',
+                      ),
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.linkedin,
+                        'https://www.linkedin.com/in/cau%C3%A3-de-sousa-lima-9734a7259/',
+                      ),
+                      _socialIcon(
+                        context,
+                        FontAwesomeIcons.whatsapp,
+                        'https://wa.me/+351928417031',
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Sou desenvolvedor Full Stack e mestrando em Engenharia de IA no ISEP, graduando em Ciência da Computação pelo IFMA. Desenvolvo aplicações web e mobile com Flutter, integradas a backends em Python (FastAPI) e Firebase, com foco em escalabilidade e performance.',
-                  style: TextStyle(
-                    color: const Color(0xFF94A3B8),
-                    fontSize: descriptionFontSize,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                Row(
-                  children: [
-                    _socialIcon(
-                      context,
-                      FontAwesomeIcons.github,
-                      'https://github.com/cauasousa/',
-                    ),
-                    _socialIcon(
-                      context,
-                      FontAwesomeIcons.linkedin,
-                      'https://www.linkedin.com/in/cau%C3%A3-de-sousa-lima-9734a7259/',
-                    ),
-                    _socialIcon(
-                      context,
-                      FontAwesomeIcons.whatsapp,
-                      'https://wa.me/+351928417031',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                _actionButton(),
-              ],
+                  const SizedBox(height: 30),
+                  _actionButton(widget.onExplore),
+                ],
+              ),
             ),
           );
 
@@ -338,7 +343,7 @@ class _HeroSectionState extends State<HeroSection> {
     );
   }
 
-  Widget _actionButton() {
+  Widget _actionButton(VoidCallback onExplore) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -347,14 +352,14 @@ class _HeroSectionState extends State<HeroSection> {
         ),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onExplore,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
         ),
         child: const Text(
-          'Conhecer meu trabalho',
+          'Explore my work',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),

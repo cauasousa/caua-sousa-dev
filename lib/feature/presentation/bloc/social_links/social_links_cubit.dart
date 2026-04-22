@@ -10,8 +10,16 @@ class SocialLinksCubit extends Cubit<SocialLinksState> {
       emit(state.copyWith(isLoading: true, error: null));
 
       final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final isAsset = !url.startsWith('http') &&
+          !url.startsWith('mailto') &&
+          !url.startsWith('tel');
+
+      if (isAsset) {
+        await launchUrl(uri, webOnlyWindowName: '_blank');
+        emit(state.copyWith(isLoading: false));
+      } else if (await canLaunchUrl(uri)) {
+        await launchUrl(uri,
+            mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank');
         emit(state.copyWith(isLoading: false));
       } else {
         emit(state.copyWith(

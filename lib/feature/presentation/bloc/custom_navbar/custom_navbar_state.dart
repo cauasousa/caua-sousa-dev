@@ -2,7 +2,7 @@ import 'navbar_section.dart';
 
 class CustomNavbarState {
   const CustomNavbarState({
-    this.activeSection = NavbarSection.inicio,
+    this.activeSection = NavbarSection.home,
     this.isMobileMenuOpen = false,
   });
 

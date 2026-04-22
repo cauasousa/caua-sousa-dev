@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // --- Novas Cores Escolhidas ---
@@ -18,9 +19,13 @@ class AppColors {
 
 class AppTheme {
   static ThemeData get darkTheme {
+    final baseTextTheme =
+        GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      fontFamily: GoogleFonts.inter().fontFamily,
 
       // Cor de fundo geral
       scaffoldBackgroundColor: AppColors.background,
@@ -35,19 +40,23 @@ class AppTheme {
       ),
 
       // Configuração de Tipografia
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 32,
+      textTheme: baseTextTheme.copyWith(
+        displayLarge: GoogleFonts.spaceGrotesk(
+          fontSize: 64,
           fontWeight: FontWeight.bold,
-          fontFamily: 'ExoBold',
+          color: Colors.white,
         ),
-        bodyLarge: TextStyle(
+        headlineMedium: GoogleFonts.spaceGrotesk(
+          fontSize: 32,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+        bodyLarge: baseTextTheme.bodyLarge?.copyWith(
           color: AppColors.textPrimary,
           fontSize: 16,
           letterSpacing: 0.5,
         ),
-        bodyMedium: TextStyle(
+        bodyMedium: baseTextTheme.bodyMedium?.copyWith(
           color: AppColors.textSecondary,
           fontSize: 14,
         ),
@@ -60,7 +69,6 @@ class AppTheme {
           foregroundColor: Colors.white,
           textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontFamily: 'ExoMedium',
           ),
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),

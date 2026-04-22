@@ -89,46 +89,38 @@ class CustomNavbar extends StatelessWidget {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           _navItem(
-                                            'Início',
+                                            'Home',
                                             textColor,
                                             isActive: state.activeSection ==
-                                                NavbarSection.inicio,
+                                                NavbarSection.home,
                                             onTap: () => _onNavTap(
-                                                context, NavbarSection.inicio),
+                                                context, NavbarSection.home),
                                           ),
                                           _navItem(
-                                            'Sobre',
+                                            'Project',
                                             textColor,
                                             isActive: state.activeSection ==
-                                                NavbarSection.sobre,
+                                                NavbarSection.project,
                                             onTap: () => _onNavTap(
-                                                context, NavbarSection.sobre),
+                                                context, NavbarSection.project),
                                           ),
                                           _navItem(
-                                            'Habilidades',
+                                            'About',
                                             textColor,
                                             isActive: state.activeSection ==
-                                                NavbarSection.habilidades,
+                                                NavbarSection.about,
                                             onTap: () => _onNavTap(
                                               context,
-                                              NavbarSection.habilidades,
+                                              NavbarSection.about,
                                             ),
                                           ),
                                           _navItem(
-                                            'Projetos',
+                                            'Contact',
                                             textColor,
                                             isActive: state.activeSection ==
-                                                NavbarSection.projetos,
-                                            onTap: () => _onNavTap(context,
-                                                NavbarSection.projetos),
-                                          ),
-                                          _navItem(
-                                            'Contato',
-                                            textColor,
-                                            isActive: state.activeSection ==
-                                                NavbarSection.contato,
+                                                NavbarSection.contact,
                                             onTap: () => _onNavTap(
-                                                context, NavbarSection.contato),
+                                                context, NavbarSection.contact),
                                           ),
                                         ],
                                       ),
@@ -178,38 +170,31 @@ class CustomNavbar extends StatelessWidget {
                               children: [
                                 _mobileMenuItem(
                                   context,
-                                  title: 'Início',
-                                  section: NavbarSection.inicio,
-                                  isActive: state.activeSection ==
-                                      NavbarSection.inicio,
+                                  title: 'Home',
+                                  section: NavbarSection.home,
+                                  isActive:
+                                      state.activeSection == NavbarSection.home,
                                 ),
                                 _mobileMenuItem(
                                   context,
-                                  title: 'Sobre',
-                                  section: NavbarSection.sobre,
+                                  title: 'Projects',
+                                  section: NavbarSection.project,
                                   isActive: state.activeSection ==
-                                      NavbarSection.sobre,
+                                      NavbarSection.project,
                                 ),
                                 _mobileMenuItem(
                                   context,
-                                  title: 'Habilidades',
-                                  section: NavbarSection.habilidades,
+                                  title: 'About',
+                                  section: NavbarSection.about,
                                   isActive: state.activeSection ==
-                                      NavbarSection.habilidades,
+                                      NavbarSection.about,
                                 ),
                                 _mobileMenuItem(
                                   context,
-                                  title: 'Projetos',
-                                  section: NavbarSection.projetos,
+                                  title: 'Contact',
+                                  section: NavbarSection.contact,
                                   isActive: state.activeSection ==
-                                      NavbarSection.projetos,
-                                ),
-                                _mobileMenuItem(
-                                  context,
-                                  title: 'Contato',
-                                  section: NavbarSection.contato,
-                                  isActive: state.activeSection ==
-                                      NavbarSection.contato,
+                                      NavbarSection.contact,
                                 ),
                                 const SizedBox(height: 16),
                                 SizedBox(
@@ -283,7 +268,6 @@ class CustomNavbar extends StatelessWidget {
             style: TextStyle(
               color: isActive ? const Color(0xFF34D399) : Colors.white70,
               fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-              fontFamily: 'ExoRegular',
             ),
           ),
         ),
@@ -392,7 +376,6 @@ class _NavItemState extends State<_NavItem> {
   Widget build(BuildContext context) {
     final isHighlighted = widget.isActive || _isHovered;
     final textStyle = TextStyle(
-      fontFamily: 'ExoRegular',
       fontSize: 15,
       fontWeight: widget.isActive ? FontWeight.w700 : FontWeight.w500,
       letterSpacing: widget.isActive ? 0.2 : 0,

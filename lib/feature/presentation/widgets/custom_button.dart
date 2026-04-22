@@ -9,7 +9,7 @@ import 'package:flutter_portfolio/feature/presentation/bloc/custom_button/custom
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-    this.label = 'Vamos conversar',
+    this.label = "Let's talk",
     this.onPressed,
     this.width,
     this.height,
@@ -115,14 +115,21 @@ class CustomButton extends StatelessWidget {
                             ),
                           )
                         else
-                          Text(
-                            label,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.25,
-                              fontFamily: 'ExoMedium',
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                label,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.25,
+                                ),
+                              ),
                             ),
                           ),
                       ],

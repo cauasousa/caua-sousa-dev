@@ -1,7 +1,6 @@
 enum NavbarSection {
-  inicio,
-  sobre,
-  habilidades,
-  projetos,
-  contato,
+  home,
+  project,
+  about,
+  contact,
 }

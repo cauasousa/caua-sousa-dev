@@ -6,7 +6,7 @@ import 'hero_section_state.dart';
 
 class HeroSectionCubit extends Cubit<HeroSectionState> {
   HeroSectionCubit({
-    String fullText = 'Desenvolvedor Full Stack',
+    String fullText = 'Full Stack Developer',
     Duration typingInterval = const Duration(milliseconds: 100),
     Duration cursorInterval = const Duration(milliseconds: 500),
   })  : _typingInterval = typingInterval,
