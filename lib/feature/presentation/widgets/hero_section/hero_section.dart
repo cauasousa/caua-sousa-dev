@@ -164,11 +164,13 @@ class _HeroSectionState extends State<HeroSection> {
 
                   final contentOpacity = (1 - (eased * 0.82)).clamp(0.0, 1.0);
                   final contentScale = 1 - (eased * 0.05);
-                  final contentOffsetY = -(eased * 72);
+                  final contentOffsetY =
+                      -(eased * 40); // Reduzido de 72 para 40
                   final dividerOffsetY = contentOffsetY.clamp(-18.0, 0.0);
-                  final contentBlur = eased * 2.2;
+                  final contentBlur = eased * 1.5; // Reduzido de 2.2 para 1.5
                   final backgroundScale = 1 + (eased * 0.04);
-                  final backgroundOffsetY = -(eased * 34);
+                  final backgroundOffsetY =
+                      -(eased * 20); // Reduzido de 34 para 20
                   return ClipRect(
                     child: RepaintBoundary(
                       child: Container(

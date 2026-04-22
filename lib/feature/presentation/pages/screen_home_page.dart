@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
 
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_bloc.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_event.dart';
@@ -57,7 +56,8 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
 
   void _onScrollMetrics(ScrollMetrics metrics) {
     // Keep transition speed consistent across screen sizes.
-    const heroTransitionDistance = 520.0;
+    const heroTransitionDistance =
+        850.0; // Aumentado para desacelerar a transição
     final targetProgress =
         (metrics.pixels / heroTransitionDistance).clamp(0.0, 1.0);
 
@@ -193,28 +193,23 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
         preferredSize: Size.fromHeight(appBarHeight),
         child: CustomNavbar(onSectionTap: _scrollToSection),
       ),
-      body: DynMouseScroll(
-        durationMS: 90,
-        builder: (context, controller, physics) =>
-            NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            if (notification.depth == 0) {
-              _onScrollMetrics(notification.metrics);
-            }
-            return false;
-          },
-          child: SingleChildScrollView(
-            controller: controller,
-            physics: physics,
-            child: Column(
-              children: [
-                _buildHomeSection(),
-                _buildProjectSection(),
-                _buildAboutSection(),
-                _buildContactSection(),
-                Footer(onNavigate: _scrollToSection),
-              ],
-            ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          if (notification is ScrollUpdateNotification &&
+              notification.depth == 0) {
+            _onScrollMetrics(notification.metrics);
+          }
+          return false;
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHomeSection(),
+              _buildProjectSection(),
+              _buildAboutSection(),
+              _buildContactSection(),
+              Footer(onNavigate: _scrollToSection),
+            ],
           ),
         ),
       ),

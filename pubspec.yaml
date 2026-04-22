@@ -38,7 +38,6 @@ dependencies:
   google_fonts: ^6.2.1
   font_awesome_flutter: ^11.0.0
   url_launcher: ^6.3.0
-  dyn_mouse_scroll: ^1.0.3
 
 dev_dependencies:
   flutter_test:
