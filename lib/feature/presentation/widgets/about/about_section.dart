@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_portfolio/core/utils/theme.dart';
+
 import '../../bloc/about/about_cubit.dart';
 import '../../bloc/about/about_state.dart';
 
@@ -95,9 +97,9 @@ class AboutSection extends StatelessWidget {
                                   const spacing = 24.0;
                                   final totalSpacing =
                                       spacing * (crossAxisCount - 1);
-                                  final cardWidth =
-                                      (gridConstraints.maxWidth - totalSpacing) /
-                                          crossAxisCount;
+                                  final cardWidth = (gridConstraints.maxWidth -
+                                          totalSpacing) /
+                                      crossAxisCount;
 
                                   return Wrap(
                                     spacing: spacing,
@@ -108,18 +110,21 @@ class AboutSection extends StatelessWidget {
                                           index++)
                                         SizedBox(
                                           width: cardWidth,
-                                          child: _CapabilityCard(
-                                            capability:
-                                                state.capabilities[index],
-                                            isHovered:
-                                                state.hoveredCardIndex ==
-                                                    index,
-                                            onHoverChanged: (hovered) {
-                                              context
-                                                  .read<AboutCubit>()
-                                                  .setCardHovered(index,
-                                                      hovered);
-                                            },
+                                          child: _StaggeredReveal(
+                                            index: index,
+                                            child: _CapabilityCard(
+                                              capability:
+                                                  state.capabilities[index],
+                                              isHovered:
+                                                  state.hoveredCardIndex ==
+                                                      index,
+                                              onHoverChanged: (hovered) {
+                                                context
+                                                    .read<AboutCubit>()
+                                                    .setCardHovered(
+                                                        index, hovered);
+                                              },
+                                            ),
                                           ),
                                         ),
                                     ],
@@ -161,12 +166,12 @@ class _CapabilityCard extends StatelessWidget {
       onEnter: (_) => onHoverChanged(true),
       onExit: (_) => onHoverChanged(false),
       child: AnimatedScale(
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutCubic,
-        scale: isHovered ? 1.020 : 1.0,
+        duration: resolveDuration(context, AppDurations.base),
+        curve: AppCurves.standard,
+        scale: isHovered ? 1.02 : 1.0,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOutCubic,
+          duration: resolveDuration(context, AppDurations.base),
+          curve: AppCurves.standard,
           constraints: const BoxConstraints(minHeight: 320),
           padding: const EdgeInsets.all(36),
           decoration: BoxDecoration(
@@ -236,6 +241,45 @@ class _CapabilityCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _StaggeredReveal extends StatefulWidget {
+  const _StaggeredReveal({required this.index, required this.child});
+
+  final int index;
+  final Widget child;
+
+  @override
+  State<_StaggeredReveal> createState() => _StaggeredRevealState();
+}
+
+class _StaggeredRevealState extends State<_StaggeredReveal> {
+  bool _visible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: widget.index * 55), () {
+      if (mounted) {
+        setState(() => _visible = true);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      duration: resolveDuration(context, AppDurations.base),
+      curve: AppCurves.standard,
+      opacity: _visible ? 1 : 0,
+      child: AnimatedSlide(
+        duration: resolveDuration(context, AppDurations.base),
+        curve: AppCurves.standard,
+        offset: _visible ? Offset.zero : const Offset(0, 0.05),
+        child: widget.child,
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_event.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_state.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/navbar_section.dart';
+import 'package:flutter_portfolio/core/utils/theme.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/navbar/band_logo.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/custom_button.dart';
 
@@ -150,8 +151,8 @@ class CustomNavbar extends StatelessWidget {
                       ),
                       if (isMobile)
                         AnimatedContainer(
-                          duration: const Duration(milliseconds: 280),
-                          curve: Curves.easeOutCubic,
+                          duration: AppDurations.slow,
+                          curve: AppCurves.standard,
                           height: dropdownHeight,
                           width: double.infinity,
                           clipBehavior: Clip.antiAlias,
@@ -247,27 +248,30 @@ class CustomNavbar extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 8),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(8),
-        onTap: () => _onNavTap(context, section),
-        child: Container(
-          decoration: BoxDecoration(
-            color: isActive
-                ? const Color(0xFF10B981).withValues(alpha: 0.12)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () => _onNavTap(context, section),
+          child: Container(
+            decoration: BoxDecoration(
               color: isActive
-                  ? const Color(0xFF10B981).withValues(alpha: 0.25)
-                  : Colors.white.withValues(alpha: 0.05),
+                  ? const Color(0xFF10B981).withValues(alpha: 0.12)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: isActive
+                    ? const Color(0xFF10B981).withValues(alpha: 0.25)
+                    : Colors.white.withValues(alpha: 0.05),
+              ),
             ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: isActive ? const Color(0xFF34D399) : Colors.white70,
-              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Text(
+              title,
+              style: TextStyle(
+                color: isActive ? const Color(0xFF34D399) : Colors.white70,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+              ),
             ),
           ),
         ),
@@ -288,8 +292,8 @@ class _AnimatedMenuGlyph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 240),
-      curve: Curves.easeOutCubic,
+      duration: AppDurations.base,
+      curve: AppCurves.standard,
       tween: Tween<double>(begin: 0, end: isOpen ? 1 : 0),
       builder: (context, t, _) {
         final middleOpacity = 1 - t;
@@ -405,8 +409,8 @@ class _NavItemState extends State<_NavItem> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOutCubic,
+                  duration: AppDurations.base,
+                  curve: AppCurves.standard,
                   style: textStyle.copyWith(
                     color: widget.isActive
                         ? widget.textColor
@@ -417,8 +421,8 @@ class _NavItemState extends State<_NavItem> {
                 ),
                 const SizedBox(height: 6),
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 320),
-                  curve: Curves.easeOutCubic,
+                  duration: AppDurations.slow,
+                  curve: AppCurves.standard,
                   height: widget.isActive ? 3 : 2.6,
                   width: indicatorWidth,
                   decoration: BoxDecoration(

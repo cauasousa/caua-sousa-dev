@@ -47,8 +47,8 @@ class CustomButton extends StatelessWidget {
                   .onEvent(const CustomButtonHoverChanged(false));
             },
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 220),
-              curve: Curves.easeOutCubic,
+              duration: AppDurations.base,
+              curve: AppCurves.standard,
               width: width,
               height: height,
               decoration: BoxDecoration(
@@ -87,7 +87,7 @@ class CustomButton extends StatelessWidget {
                           onPressed?.call();
                         },
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 220),
+                    duration: AppDurations.base,
                     alignment: Alignment.center,
                     padding: contentPadding,
                     constraints: hasFixedHeight

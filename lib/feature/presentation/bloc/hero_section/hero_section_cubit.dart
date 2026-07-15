@@ -32,6 +32,8 @@ class HeroSectionCubit extends Cubit<HeroSectionState> {
 
     _typingTimer = Timer.periodic(_typingInterval, (timer) {
       if (state.isTypingComplete) {
+        _cursorTimer?.cancel();
+        emit(state.copyWith(showCursor: false));
         timer.cancel();
         return;
       }

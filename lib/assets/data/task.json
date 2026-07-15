@@ -4,74 +4,83 @@
             "id": "p01",
             "title": "Rocket League",
             "description": "Trabalho com materiais, shaders e performance em Unreal Engine para um jogo competitivo.",
-            "type": "Released",
-            "tags": [
-                "UNREAL",
-                "GAME",
-                "3D",
-                "SHADERS"
+            "type": "Academic",
+            "tags": ["UNREAL", "GAME", "3D", "SHADERS"],
+            "images": [
+                "lib/assets/images/rocket-league/1.png",
+                "lib/assets/images/rocket-league/2.png",
+                "lib/assets/images/rocket-league/3.png"
             ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "link": "https://github.com/cauasousa/rocket-league"
         },
         {
             "id": "p02",
             "title": "Tamagotchi Toy-Like",
             "description": "Projeto completo de pipeline 3D com modelagem, animação e interacao em tempo real.",
             "type": "Personal",
-            "tags": [
-                "UNREAL",
-                "3D",
-                "SDF"
+            "tags": ["UNREAL", "3D", "SDF"],
+            "images": [
+                "lib/assets/images/tamagotchi/1.png",
+                "lib/assets/images/tamagotchi/2.png"
             ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "link": null
         },
         {
             "id": "p03",
             "title": "The Boys Trigger Warning",
             "description": "Experiencia VR com foco em combate dinamico e interacao por movimento.",
-            "type": "Released",
-            "tags": [
-                "UNITY",
-                "VR",
-                "GAME"
-            ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "type": "Academic",
+            "tags": ["UNITY", "VR", "GAME"],
+            "images": [
+                "lib/assets/images/trigger-warning/1.png"
+            ]
         },
         {
             "id": "p04",
             "title": "Flower Lake",
             "description": "Sandbox visual com compute shader, vegetacao procedural e renderizacao customizada.",
             "type": "Personal",
-            "tags": [
-                "UNITY",
-                "3D",
-                "SHADER"
-            ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "tags": ["UNITY", "3D", "SHADER"],
+            "images": [
+                "lib/assets/images/flower-lake/1.png"
+            ]
         },
         {
             "id": "p05",
-            "title": "Fiat Fastback WebGL",
+            "title": "s Fastback WebGL",
             "description": "Componente 3D interativo para campanha web com visualizacao em tempo real.",
-            "type": "Released",
-            "tags": [
-                "THREEJS",
-                "WEBGL",
-                "3D"
+            "type": "Academic",
+            "tags": ["THREEJS", "WEBGL", "3D"],
+            "images": [
+                "lib/assets/images/fastback/1.png"
             ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "link": "https://fastback-demo.example.com"
         },
         {
             "id": "p06",
             "title": "Space Mavericks",
             "description": "Landing interativa com foco em performance e impacto visual cinematografico.",
             "type": "Personal",
-            "tags": [
-                "WEBGL",
-                "THREEJS",
-                "UI"
+            "tags": ["WEBGL", "THREEJS", "UI"],
+            "images": [
+                "lib/assets/images/space-mavericks/1.png"
+            ]
+        },
+        {
+            "id": "p07",
+            "title": "IF-Club",
+            "description": "Developed a project focused on academic integration through the creation of a social network for researchers at IFMA – Campus Caxias. The platform was designed to connect students and professors from different fields, enabling collaboration, idea sharing, and interaction on research and innovation projects. The initiative contributed to improving communication and encouraging interdisciplinary work within the institution.",
+            "type": "Academic",
+            "tags": ["PROTOTYPE", "USABILITY", "FLUTTER", "UI", "FIREBASE"],
+            "images": [
+                "lib/assets/images/if-club/0-club.jpeg",
+                "lib/assets/images/if-club/1-club.jpeg",
+                "lib/assets/images/if-club/2-club.jpeg",
+                "lib/assets/images/if-club/3-club.jpeg",
+                "lib/assets/images/if-club/4-club.jpeg"
             ],
-            "image": "lib/assets/images/image-portfolio.png"
+            "link": null
+
         }
     ]
 }

@@ -17,6 +17,22 @@ class AppColors {
       Color(0xFF94A3B8); // Cinza azulado para legendas
 }
 
+class AppDurations {
+  static const fast = Duration(milliseconds: 150);
+  static const base = Duration(milliseconds: 220);
+  static const slow = Duration(milliseconds: 400);
+}
+
+class AppCurves {
+  static const standard = Curves.easeOutCubic;
+}
+
+Duration resolveDuration(BuildContext context, Duration duration) {
+  final disableAnimations =
+      MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+  return disableAnimations ? Duration.zero : duration;
+}
+
 class AppTheme {
   static ThemeData get darkTheme {
     final baseTextTheme =

@@ -54,6 +54,8 @@ class _HeroSectionState extends State<HeroSection> {
     final greetingFontSize = isDesktop ? 68.0 : 42.0;
     final roleFontSize = isDesktop ? 64.0 : 44.0;
     final descriptionFontSize = isDesktop ? 20.0 : 18.0;
+    const heroBackgroundColor = Color(0xFF0A0A0A);
+    const nextSectionColor = Color(0xFF0A0A0A);
 
     return MultiBlocProvider(
       providers: [
@@ -166,7 +168,7 @@ class _HeroSectionState extends State<HeroSection> {
                   final contentScale = 1 - (eased * 0.05);
                   final contentOffsetY =
                       -(eased * 40); // Reduzido de 72 para 40
-                  final dividerOffsetY = contentOffsetY.clamp(-18.0, 0.0);
+                  final dividerOffsetY = contentOffsetY.clamp(0.0, 0.0);
                   final contentBlur = eased * 1.5; // Reduzido de 2.2 para 1.5
                   final backgroundScale = 1 + (eased * 0.04);
                   final backgroundOffsetY =
@@ -284,32 +286,9 @@ class _HeroSectionState extends State<HeroSection> {
                               bottom: 0,
                               child: Transform.translate(
                                 offset: Offset(0, dividerOffsetY),
-                                child: IgnorePointer(
-                                  child: Container(
-                                    height: 36,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.black.withValues(alpha: 0.0),
-                                          const Color(0xFF0A0A0A)
-                                              .withValues(alpha: 0.92),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 6,
-                              child: Transform.translate(
-                                offset: Offset(0, dividerOffsetY),
-                                child: const JaggedDivider(
-                                  backgroundColor: Color(0xFF0A0A0A),
+                                child: SectionDivider(
+                                  topColor: heroBackgroundColor,
+                                  bottomColor: nextSectionColor,
                                   height: 52,
                                 ),
                               ),
@@ -429,120 +408,125 @@ class _HeroSectionState extends State<HeroSection> {
   }
 }
 
-class JaggedDividerClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    // Proporções baseadas no viewBox="0 0 1440 68" do seu SVG
-    double factorX = size.width / 1440;
-    double factorY = size.height / 68;
-
-    Path path = Path();
-    path.moveTo(0 * factorX, 12.5 * factorY);
-    path.lineTo(114 * factorX, 38 * factorY);
-    path.lineTo(253.5 * factorX, 18 * factorY);
-    path.lineTo(400.5 * factorX, 28.5 * factorY);
-    path.lineTo(433.5 * factorX, 12.5 * factorY);
-    path.lineTo(657 * factorX, 35 * factorY);
-    path.lineTo(886 * factorX, 12.5 * factorY);
-    path.lineTo(1020.5 * factorX, 35 * factorY);
-    path.lineTo(1207 * factorX, 0 * factorY);
-    path.lineTo(1307.5 * factorX, 28.5 * factorY);
-    path.lineTo(1440 * factorX, 12.5 * factorY);
-
-    // Fecha a forma por baixo para criar o preenchimento sólido
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
-class JaggedDivider extends StatelessWidget {
-  const JaggedDivider({
+class SectionDivider extends StatelessWidget {
+  const SectionDivider({
     super.key,
-    this.backgroundColor = const Color(0xFF0A0A0A),
-    this.height = 68,
+    required this.topColor,
+    required this.bottomColor,
+    this.height = 64,
+    this.showGlowLine = true,
   });
 
-  final Color backgroundColor;
+  final Color topColor;
+
+  final Color bottomColor;
+
   final double height;
+  final bool showGlowLine;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: height,
-      child: Stack(
-        children: [
-          ClipPath(
-            clipper: JaggedDividerClipper(),
-            child: Container(
-              width: double.infinity,
-              height: height,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.45),
-                    blurRadius: 10,
-                    offset: const Offset(0, -4),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: CustomPaint(
-                painter: _JaggedTopLinePainter(),
-              ),
-            ),
-          ),
-        ],
+      child: CustomPaint(
+        painter: _SectionDividerPainter(
+          topColor: topColor,
+          bottomColor: bottomColor,
+          showGlowLine: showGlowLine,
+        ),
       ),
     );
   }
 }
 
-class _JaggedTopLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final path = Path();
-    double factorX = size.width / 1440;
-    double factorY = size.height / 68;
+class _SectionDividerPainter extends CustomPainter {
+  _SectionDividerPainter({
+    required this.topColor,
+    required this.bottomColor,
+    required this.showGlowLine,
+  });
 
-    path.moveTo(0 * factorX, 12.5 * factorY);
-    path.lineTo(114 * factorX, 38 * factorY);
-    path.lineTo(253.5 * factorX, 18 * factorY);
-    path.lineTo(400.5 * factorX, 28.5 * factorY);
-    path.lineTo(433.5 * factorX, 12.5 * factorY);
-    path.lineTo(657 * factorX, 35 * factorY);
-    path.lineTo(886 * factorX, 12.5 * factorY);
-    path.lineTo(1020.5 * factorX, 35 * factorY);
-    path.lineTo(1207 * factorX, 0 * factorY);
-    path.lineTo(1307.5 * factorX, 28.5 * factorY);
-    path.lineTo(1440 * factorX, 12.5 * factorY);
+  final Color topColor;
+  final Color bottomColor;
+  final bool showGlowLine;
 
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2
-      ..shader = LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: [
-          Colors.white.withValues(alpha: 0.0),
-          Colors.white.withValues(alpha: 0.14),
-          Colors.white.withValues(alpha: 0.0),
-        ],
-      ).createShader(Offset.zero & size);
+  Path _buildLinePath(Size size) {
+    final w = size.width;
+    final h = size.height;
+    final path = Path()..moveTo(0, h * 0.55);
 
-    canvas.drawPath(path, paint);
+    path.cubicTo(
+      w * 0.12,
+      h * 0.15,
+      w * 0.22,
+      h * 0.15,
+      w * 0.34,
+      h * 0.55,
+    );
+    path.cubicTo(
+      w * 0.46,
+      h * 0.95,
+      w * 0.56,
+      h * 0.95,
+      w * 0.68,
+      h * 0.55,
+    );
+    path.cubicTo(
+      w * 0.80,
+      h * 0.15,
+      w * 0.90,
+      h * 0.15,
+      w * 1.00,
+      h * 0.55,
+    );
+
+    return path;
   }
 
   @override
-  bool shouldRepaint(_JaggedTopLinePainter oldDelegate) => false;
+  void paint(Canvas canvas, Size size) {
+    final linePath = _buildLinePath(size);
+
+    // Preenche apenas a região inferior abaixo da curva com bottomColor.
+    final bottomPath = Path()
+      ..moveTo(0, size.height * 0.55)
+      ..addPath(linePath, Offset.zero)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+    canvas.drawPath(bottomPath, Paint()..color = bottomColor);
+
+    // Desenha a linha/glow sobre a curva.
+    final shadowPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 14
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10)
+      ..color = Colors.black.withValues(alpha: 0.35);
+    canvas.save();
+    canvas.translate(0, 3); // desloca a sombra levemente para baixo
+    canvas.drawPath(linePath, shadowPaint);
+    canvas.restore();
+
+    if (showGlowLine) {
+      final glowPaint = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..shader = LinearGradient(
+          colors: [
+            Colors.white.withValues(alpha: 0.0),
+            Colors.white.withValues(alpha: 0.22),
+            Colors.white.withValues(alpha: 0.0),
+          ],
+        ).createShader(Offset.zero & size);
+      canvas.drawPath(linePath, glowPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _SectionDividerPainter oldDelegate) {
+    return oldDelegate.topColor != topColor ||
+        oldDelegate.bottomColor != bottomColor ||
+        oldDelegate.showGlowLine != showGlowLine;
+  }
 }

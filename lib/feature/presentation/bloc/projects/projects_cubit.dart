@@ -26,16 +26,17 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         state.copyWith(
           status: ProjectsStatus.success,
           projects: projects,
+          reactionCounts: _buildReactionCounts(projects),
         ),
       );
     } catch (error) {
       debugPrint('Projects load error: $error');
 
-      // Keeps UI working even if web dev-server fails to serve the JSON file.
       emit(
         state.copyWith(
-          status: ProjectsStatus.success,
+          status: ProjectsStatus.failure,
           projects: _fallbackProjects,
+          reactionCounts: _buildReactionCounts(_fallbackProjects),
         ),
       );
     }
@@ -49,32 +50,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   }
 
   static const List<ProjectItem> _fallbackProjects = [
-    ProjectItem(
-      id: 'fallback-1',
-      title: 'Rocket League',
-      description:
-          'Trabalho com materiais, shaders e performance em Unreal Engine.',
-      type: 'Released',
-      tags: ['UNREAL', 'GAME', '3D', 'SHADERS'],
-      image: 'lib/assets/images/image-portfolio.png',
-    ),
-    ProjectItem(
-      id: 'fallback-2',
-      title: 'Tamagotchi Toy-Like',
-      description: 'Pipeline 3D completo com foco em visual e interacao.',
-      type: 'Personal',
-      tags: ['UNREAL', '3D', 'SDF'],
-      image: 'lib/assets/images/image-portfolio.png',
-    ),
-    ProjectItem(
-      id: 'fallback-3',
-      title: 'Fiat Fastback WebGL',
-      description:
-          'Experiencia web 3D interativa com renderizacao em tempo real.',
-      type: 'Released',
-      tags: ['THREEJS', 'WEBGL', '3D'],
-      image: 'lib/assets/images/image-portfolio.png',
-    ),
+    
   ];
 
   void setFilter(String filter) {
@@ -82,5 +58,54 @@ class ProjectsCubit extends Cubit<ProjectsState> {
       return;
     }
     emit(state.copyWith(selectedFilter: filter));
+  }
+
+  void openProjectDetails(String projectId) {
+    if (state.selectedProjectId == projectId) {
+      emit(state.copyWith(selectedProjectId: null));
+      Future.microtask(() {
+        if (!isClosed) {
+          emit(this.state.copyWith(selectedProjectId: projectId));
+        }
+      });
+      return;
+    }
+
+    emit(state.copyWith(selectedProjectId: projectId));
+  }
+
+  void closeProjectDetails() {
+    emit(state.copyWith(selectedProjectId: null));
+  }
+
+  void incrementReaction(String projectId, ProjectReaction reaction) {
+    final nextCounts = Map<String, Map<ProjectReaction, int>>.from(
+      state.reactionCounts,
+    );
+    final projectCounts = Map<ProjectReaction, int>.from(
+      nextCounts[projectId] ?? const <ProjectReaction, int>{},
+    );
+    projectCounts[reaction] = (projectCounts[reaction] ?? 0) + 1;
+    nextCounts[projectId] = projectCounts;
+
+    emit(state.copyWith(reactionCounts: nextCounts));
+  }
+
+  Map<String, Map<ProjectReaction, int>> _buildReactionCounts(
+    List<ProjectItem> projects,
+  ) {
+    final counts = <String, Map<ProjectReaction, int>>{};
+
+    for (var index = 0; index < projects.length; index++) {
+      final project = projects[index];
+      counts[project.id] = <ProjectReaction, int>{
+        ProjectReaction.like: 23 + index + 1,
+        ProjectReaction.fire: 11 + index + 1,
+        ProjectReaction.heart: 7 + index + 1,
+        ProjectReaction.sparkle: 4 + index + 1,
+      };
+    }
+
+    return counts;
   }
 }

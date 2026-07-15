@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_portfolio/core/utils/theme.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/brand_logo/brand_logo_bloc.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/brand_logo/brand_logo_event.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/brand_logo/brand_logo_state.dart';
@@ -42,13 +43,13 @@ class BrandLogo extends StatelessWidget {
                       .read<BrandLogoBloc>()
                       .onEvent(const BrandLogoCsHoverChanged(false)),
                   child: AnimatedScale(
-                    duration: const Duration(milliseconds: 180),
-                    curve: Curves.easeOutCubic,
+                    duration: AppDurations.fast,
+                    curve: AppCurves.standard,
                     scale:
                         state.isPressed ? 0.96 : (state.isCsHovered ? 1.03 : 1),
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 220),
-                      curve: Curves.easeOutCubic,
+                      duration: AppDurations.base,
+                      curve: AppCurves.standard,
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
@@ -94,14 +95,14 @@ class BrandLogo extends StatelessWidget {
                       .read<BrandLogoBloc>()
                       .onEvent(const BrandLogoNameHoverChanged(false)),
                   child: AnimatedSlide(
-                    duration: const Duration(milliseconds: 220),
-                    curve: Curves.easeOutCubic,
+                    duration: AppDurations.base,
+                    curve: AppCurves.standard,
                     offset: state.isNameHovered
                         ? const Offset(0.02, 0)
                         : Offset.zero,
                     child: AnimatedScale(
-                      duration: const Duration(milliseconds: 180),
-                      curve: Curves.easeOutCubic,
+                      duration: AppDurations.fast,
+                      curve: AppCurves.standard,
                       scale: state.isPressed
                           ? 0.99
                           : (state.isNameHovered ? 1.03 : 1),
