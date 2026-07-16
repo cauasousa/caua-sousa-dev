@@ -47,39 +47,42 @@ class AboutCubit extends Cubit<AboutState> {
         icon: Icons.psychology_alt_outlined,
         lines: [
           CapabilityLine(
-            'Computer Vision',
-            'Real-time object detection and tracking',
-            badges: ['YOLO', 'DETR', 'RT-DETR'],
+            '---',
+            'Computer Vision & Deep Learning',
+            badges: ['YOLO', 'DETR', 'RT-DETR', 'PyTorch', 'TensorFlow', "OpenCV"],
             badgeColor: Color(0xFF60A5FA),
           ),
           CapabilityLine(
-            'Machine Learning',
-            'Training models for edge devices',
-            badges: ['Neural Nets', 'Optimization', 'Real-time'],
+            '--',
+            'Edge AI & Model Optimization',
+            badges: ['TensorRT', 'ONNX', 'Quantization', 'Optimization'],
             badgeColor: Color(0xFF34D399),
           ),
           CapabilityLine(
-            'Embedded AI',
+            '--',
+            'Embedded Systems & Robotics',
+            badges: ['ROS2', 'FPGA', 'Hardware Integration'],
+            badgeColor: Color(0xFF34D399),
+          ),
+
+          
+        ],
+      ),
+      
+      Capability(
+        title: 'Others',
+        icon: Icons.design_services_outlined,
+        lines: [
+          CapabilityLine(
+            'Embedded Systems',
             'Deploying models on hardware',
             badges: ['Raspberry Pi', 'FPGA', 'Edge'],
             badgeColor: Color(0xFFE6B9F2),
           ),
-        ],
-      ),
-      Capability(
-        title: 'UI/UX and Prototyping',
-        icon: Icons.design_services_outlined,
-        lines: [
-          CapabilityLine(
-            'Design',
-            'User-centered interface design',
-            badges: ['Prototyping', 'Usability', 'UX'],
-            badgeColor: Color(0xFF60A5FA),
-          ),
           CapabilityLine(
             'Tools',
             'High-fidelity design and workflows',
-            badges: ['Figma'],
+            badges: ['Figma', 'UX'],
             badgeColor: Color(0xFF34D399),
           ),
         ],

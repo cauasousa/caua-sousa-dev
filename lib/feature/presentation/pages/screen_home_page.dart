@@ -5,6 +5,7 @@ import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/custom_navbar_event.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/custom_navbar/navbar_section.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/about/about_cubit.dart';
+import 'package:flutter_portfolio/feature/presentation/widgets/chat/chat_message.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/contact/contact_section.dart';
 import 'package:flutter_portfolio/feature/presentation/bloc/projects/projects_cubit.dart';
 import 'package:flutter_portfolio/feature/presentation/widgets/about/about_section.dart';
@@ -193,25 +194,30 @@ class _ScreenHomePageState extends State<ScreenHomePage> {
         preferredSize: Size.fromHeight(appBarHeight),
         child: CustomNavbar(onSectionTap: _scrollToSection),
       ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification is ScrollUpdateNotification &&
-              notification.depth == 0) {
-            _onScrollMetrics(notification.metrics);
-          }
-          return false;
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildHomeSection(),
-              _buildProjectSection(),
-              _buildAboutSection(),
-              _buildContactSection(),
-              Footer(onNavigate: _scrollToSection),
-            ],
+      body: Stack(
+        children: [
+          NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification is ScrollUpdateNotification &&
+                  notification.depth == 0) {
+                _onScrollMetrics(notification.metrics);
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildHomeSection(),
+                  _buildProjectSection(),
+                  _buildAboutSection(),
+                  _buildContactSection(),
+                  Footer(onNavigate: _scrollToSection),
+                ],
+              ),
+            ),
           ),
-        ),
+          const AiChatBubble(),
+        ],
       ),
     );
   }

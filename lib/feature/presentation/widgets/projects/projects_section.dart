@@ -41,7 +41,14 @@ class ProjectsSection extends StatelessWidget {
           context: context,
           builder: (dialogContext) =>
               ProjectDetailsDialog(project: selectedProject!),
-        );
+        ).then((_) {
+          // Quando o usuário clicar fora ou fechar o modal, limpamos a seleção no Cubit
+          if (context.mounted) {
+            context
+                .read<ProjectsCubit>()
+                .closeProjectDetails(); // Substitua pelo método que você usa para limpar o estado
+          }
+        });
       },
       child: BlocBuilder<ProjectsCubit, ProjectsState>(
         builder: (context, state) {
@@ -354,8 +361,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                 fit: StackFit.expand,
                 children: [
                   Positioned.fill(
-                    child: ColoredBox(
-                        color:  Color(0xFF0EA5A3)),
+                    child: ColoredBox(color: Colors.transparent),
                   ),
                   AnimatedScale(
                     duration: resolveDuration(
@@ -629,71 +635,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            _CardActionIcon(
-                              icon: Icons.thumb_up_alt_outlined,
-                              count: context.select<ProjectsCubit, int>(
-                                (cubit) => cubit.state.reactionCount(
-                                  project.id,
-                                  ProjectReaction.like,
-                                ),
-                              ),
-                              onTap: () => context
-                                  .read<ProjectsCubit>()
-                                  .incrementReaction(
-                                    project.id,
-                                    ProjectReaction.like,
-                                  ),
-                            ),
-                            _CardActionIcon(
-                              icon: Icons.local_fire_department_outlined,
-                              count: context.select<ProjectsCubit, int>(
-                                (cubit) => cubit.state.reactionCount(
-                                  project.id,
-                                  ProjectReaction.fire,
-                                ),
-                              ),
-                              onTap: () => context
-                                  .read<ProjectsCubit>()
-                                  .incrementReaction(
-                                    project.id,
-                                    ProjectReaction.fire,
-                                  ),
-                            ),
-                            _CardActionIcon(
-                              icon: Icons.favorite_border,
-                              count: context.select<ProjectsCubit, int>(
-                                (cubit) => cubit.state.reactionCount(
-                                  project.id,
-                                  ProjectReaction.heart,
-                                ),
-                              ),
-                              onTap: () => context
-                                  .read<ProjectsCubit>()
-                                  .incrementReaction(
-                                    project.id,
-                                    ProjectReaction.heart,
-                                  ),
-                            ),
-                            _CardActionIcon(
-                              icon: Icons.auto_awesome_outlined,
-                              count: context.select<ProjectsCubit, int>(
-                                (cubit) => cubit.state.reactionCount(
-                                  project.id,
-                                  ProjectReaction.sparkle,
-                                ),
-                              ),
-                              onTap: () => context
-                                  .read<ProjectsCubit>()
-                                  .incrementReaction(
-                                    project.id,
-                                    ProjectReaction.sparkle,
-                                  ),
-                            ),
-                          ],
-                        ),
+                        
                       ],
                     ),
                   ),
@@ -843,94 +785,6 @@ class _ProjectSkeletonCardState extends State<_ProjectSkeletonCard>
   }
 }
 
-class _CardActionIcon extends StatefulWidget {
-  const _CardActionIcon({
-    required this.icon,
-    required this.count,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final int count;
-  final VoidCallback onTap;
-
-  @override
-  State<_CardActionIcon> createState() => _CardActionIconState();
-}
-
-class _CardActionIconState extends State<_CardActionIcon> {
-  bool _isPressed = false;
-
-  void _handleTap() {
-    setState(() => _isPressed = true);
-    widget.onTap();
-
-    Future.delayed(const Duration(milliseconds: 220), () {
-      if (mounted) {
-        setState(() => _isPressed = false);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 2),
-      child: GestureDetector(
-        onTap: _handleTap,
-        child: AnimatedContainer(
-          duration: resolveDuration(context, const Duration(milliseconds: 220)),
-          curve: AppCurves.standard,
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          decoration: BoxDecoration(
-            color: _isPressed
-                ? Colors.white.withValues(alpha: 0.16)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(999),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedContainer(
-                duration:
-                    resolveDuration(context, const Duration(milliseconds: 220)),
-                curve: AppCurves.standard,
-                width: _isPressed ? 28 : 24,
-                height: _isPressed ? 28 : 24,
-                decoration: BoxDecoration(
-                  color: _isPressed
-                      ? Colors.white.withValues(alpha: 0.12)
-                      : Colors.transparent,
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  widget.icon,
-                  size: 14,
-                  color: _isPressed ? Colors.white : Colors.white38,
-                ),
-              ),
-              const SizedBox(width: 4),
-              AnimatedSwitcher(
-                duration:
-                    resolveDuration(context, const Duration(milliseconds: 180)),
-                child: Text(
-                  widget.count.toString(),
-                  key: ValueKey<int>(widget.count),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: _isPressed ? Colors.white : Colors.white38,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class ProjectDetailsDialog extends StatelessWidget {
   const ProjectDetailsDialog({super.key, required this.project});
@@ -983,7 +837,7 @@ class ProjectDetailsDialog extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        context.read<ProjectsCubit>().closeProjectDetails();
+                        // context.read<ProjectsCubit>().closeProjectDetails();
                         Navigator.of(context).pop();
                       },
                       icon: const Icon(Icons.close, color: Colors.white54),
@@ -1070,13 +924,24 @@ class ProjectDetailsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Wrap(
+                    alignment: WrapAlignment.start,
                     spacing: 16,
                     runSpacing: 16,
                     children: galleryImages
                         .map(
                           (imagePath) => FractionallySizedBox(
                             widthFactor: isDesktop ? 0.45 : 0.47,
-                            child: HoverExpandableImage(imagePath: imagePath),
+                            // Adiciona o AspectRatio para manter a proporção 16:9
+                            alignment: Alignment.centerLeft,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxHeight: 220, // <--- Ajuste este valor (ex: 180, 220, 250) até ficar do tamanho desejado
+                              ),
+                              child: HoverExpandableImage(
+                                imagePath: imagePath,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
                         )
                         .toList(),
@@ -1145,10 +1010,12 @@ class HoverExpandableImage extends StatefulWidget {
     super.key,
     required this.imagePath,
     this.isMain = false,
+    this.fit = BoxFit.cover,
   });
 
   final String imagePath;
   final bool isMain;
+  final BoxFit fit;
 
   @override
   State<HoverExpandableImage> createState() => _HoverExpandableImageState();
@@ -1192,33 +1059,36 @@ class _HoverExpandableImageState extends State<HoverExpandableImage> {
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
         onTap: _showFullScreen,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: _isHovered
-                  ? const Color(0xFF34D399)
-                  : Colors.white.withValues(alpha: 0.05),
-              width: 2,
+        child: SizedBox.expand(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: _isHovered
+                    ? const Color(0xFF34D399)
+                    : Colors.white.withValues(alpha: 0.05),
+                width: 2,
+              ),
+              boxShadow: _isHovered
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFF34D399).withValues(alpha: 0.3),
+                        blurRadius: 15,
+                        offset: const Offset(0, 5),
+                      ),
+                    ]
+                  : const [],
             ),
-            boxShadow: _isHovered
-                ? [
-                    BoxShadow(
-                      color: const Color(0xFF34D399).withValues(alpha: 0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 5),
-                    ),
-                  ]
-                : const [],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              widget.imagePath,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: widget.isMain ? double.infinity : 120,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                widget.imagePath,
+                fit: widget.fit,
+                width: double.infinity,
+                height:
+                    double.infinity, // widget.isMain ? double.infinity : 120,
+              ),
             ),
           ),
         ),

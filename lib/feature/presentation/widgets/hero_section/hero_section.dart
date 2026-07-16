@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -71,8 +72,16 @@ class _HeroSectionState extends State<HeroSection> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Hello, I am',
+                  // Text(
+                  //   'Hi! I’m Cauã Sousa',
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: greetingFontSize,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  _BouncingLetters(
+                    text: 'Hi! I’m Cauã Sousa',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: greetingFontSize,
@@ -115,7 +124,7 @@ class _HeroSectionState extends State<HeroSection> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "I am a Full Stack Developer and a Master's student in AI Engineering at ISEP, while also completing my Bachelor's in Computer Science at IFMA. I develop web and mobile applications using Flutter, integrated with Python (FastAPI) and Firebase backends, focusing on scalability and performance.",
+                    "Developing robust applications and integrating AI to solve real-world problems.",
                     style: TextStyle(
                       color: const Color(0xFF94A3B8),
                       fontSize: descriptionFontSize,
@@ -528,5 +537,99 @@ class _SectionDividerPainter extends CustomPainter {
     return oldDelegate.topColor != topColor ||
         oldDelegate.bottomColor != bottomColor ||
         oldDelegate.showGlowLine != showGlowLine;
+  }
+}
+
+class _BouncingLetters extends StatefulWidget {
+  const _BouncingLetters({
+    required this.text,
+    required this.style,
+  });
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  State<_BouncingLetters> createState() => _BouncingLettersState();
+}
+
+class _BouncingLettersState extends State<_BouncingLetters>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Controlador mais lento (2.5s) para dar tempo da onda percorrer as letras
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  // Cria a física do "pulo" perfeito (uma parábola suave)
+  double _getLetterOffset(int index) {
+    // O tempo total da animação multiplicado para dar a sensação de segundos
+    final double timeInSeconds = _controller.value * 2.5;
+    
+    // O atraso de cada letra para criar o efeito "onda"
+    final double staggerDelay = index * 0.06; 
+    
+    // Calcula o tempo local desta letra específica
+    final double localTime = timeInSeconds - staggerDelay;
+    
+    // Tempo que o pulo em si dura (0.5 segundos)
+    final double hopDuration = 0.5; 
+    final double hopCycle = localTime % hopDuration;
+
+    // Se a letra estiver no momento do pulo
+    if (hopCycle >= 0 && hopCycle < hopDuration) {
+      // Normaliza o tempo do pulo de 0.0 a 1.0
+      final double progress = hopCycle / hopDuration;
+      
+      // A mágica: Usa o Seno (pi) para criar uma parábola perfeita.
+      // Sobe devagar no começo, atinge o topo no meio, e desce suavemente no fim.
+      final double curve = math.sin(progress * math.pi); 
+      
+      // Move a letra para cima (valor negativo). -5 é a altura do salto.
+      return curve * -5.0; 
+    }
+
+    return 0.0; // Se não estiver pulando, fica no lugar original
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Usamos Text.rich com WidgetSpan para manter o espaçamento exato 
+    // entre as letras, sem parecer que foram coladas manualmente.
+    return Text.rich(
+      TextSpan(
+        children: widget.text.split('').asMap().entries.map((entry) {
+          final int index = entry.key;
+          final String char = entry.value;
+
+          return WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, _getLetterOffset(index)),
+                  child: child,
+                );
+              },
+              child: Text(char, style: widget.style),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }

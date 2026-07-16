@@ -74,6 +74,8 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     emit(state.copyWith(selectedProjectId: projectId));
   }
 
+  
+
   void closeProjectDetails() {
     emit(state.copyWith(selectedProjectId: null));
   }
