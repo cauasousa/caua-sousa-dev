@@ -29,7 +29,6 @@ class _AiChatBubbleState extends State<AiChatBubble>
     'http://127.0.0.1:8000/chat', // Local 
     'https://portfolio-ai-backend-xxm2.onrender.com/chat', // Deploy 
   ];
-
   
   final int _selectedApiIndex = 1;
 

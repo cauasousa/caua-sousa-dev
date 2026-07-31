@@ -32,7 +32,7 @@ class ProjectItem {
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      type: json['type'] as String? ?? 'Personal',
+      type: json['type'] as String? ?? 'Professional',
       tags: (json['tags'] as List<dynamic>? ?? const [])
           .map((tag) => tag.toString())
           .toList(growable: false),

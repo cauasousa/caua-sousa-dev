@@ -12,7 +12,7 @@ import 'package:flutter_portfolio/feature/presentation/bloc/projects/projects_st
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
 
-  static const filters = ['All', 'Academic', 'Personal'];
+  static const filters = ['All', 'Academic', 'Professional'];
 
   @override
   Widget build(BuildContext context) {

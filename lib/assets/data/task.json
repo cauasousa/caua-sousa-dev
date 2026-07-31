@@ -1,29 +1,39 @@
 {
     "projects": [
+        
         {
-            "id": "p01",
-            "title": "Rocket League",
-            "description": "Trabalho com materiais, shaders e performance em Unreal Engine para um jogo competitivo.",
-            "type": "Academic",
-            "tags": ["UNREAL", "GAME", "3D", "SHADERS"],
+            "id": "p00",
+            "title": "Intelligent Tool Control and History System",
+            "description": "Development of a web system and API for industrial asset management using Industry 4.0 technologies. I worked on building the API and the web front-end, being responsible for the products and tools module structure, and assisting the team in defining the database schema for warehouse control.",
+            "type": "Professional",
+            "tags": ["NEXT.JS", "TYPESCRIPT", "TAILWIND", "FastAPI", "POSTGRESQL"],
             "images": [
-                "lib/assets/images/rocket-league/1.png",
-                "lib/assets/images/rocket-league/2.png",
-                "lib/assets/images/rocket-league/3.png"
-            ],
-            "link": "https://github.com/cauasousa/rocket-league"
-        },
-        {
-            "id": "p02",
-            "title": "Tamagotchi Toy-Like",
-            "description": "Projeto completo de pipeline 3D com modelagem, animação e interacao em tempo real.",
-            "type": "Personal",
-            "tags": ["UNREAL", "3D", "SDF"],
-            "images": [
-                "lib/assets/images/tamagotchi/1.png",
-                "lib/assets/images/tamagotchi/2.png"
+                "lib/assets/images/gasmar/1.png",
+                "lib/assets/images/gasmar/2.png",
+                "lib/assets/images/gasmar/3.png",
+                "lib/assets/images/gasmar/4.png",
+                "lib/assets/images/gasmar/5.png",
+                "lib/assets/images/gasmar/6.png",
+                "lib/assets/images/gasmar/7.png"
+
             ],
             "link": null
+        },
+        {
+            "id": "p01",
+            "title": "IF-Club",
+            "description": "Developed a project focused on academic integration through the creation of a social network for researchers at IFMA – Campus Caxias. The platform was designed to connect students and professors from different fields, enabling collaboration, idea sharing, and interaction on research and innovation projects. The initiative contributed to improving communication and encouraging interdisciplinary work within the institution.",
+            "type": "Academic",
+            "tags": ["PROTOTYPE", "USABILITY", "FLUTTER", "UI", "FIREBASE"],
+            "images": [
+                "lib/assets/images/if-club/0-club.jpeg",
+                "lib/assets/images/if-club/1-club.jpeg",
+                "lib/assets/images/if-club/2-club.jpeg",
+                "lib/assets/images/if-club/3-club.jpeg",
+                "lib/assets/images/if-club/4-club.jpeg"
+            ],
+            "link": null
+
         },
         {
             "id": "p03",
@@ -39,7 +49,7 @@
             "id": "p04",
             "title": "Flower Lake",
             "description": "Sandbox visual com compute shader, vegetacao procedural e renderizacao customizada.",
-            "type": "Personal",
+            "type": "Professional",
             "tags": ["UNITY", "3D", "SHADER"],
             "images": [
                 "lib/assets/images/flower-lake/1.png"
@@ -60,27 +70,24 @@
             "id": "p06",
             "title": "Space Mavericks",
             "description": "Landing interativa com foco em performance e impacto visual cinematografico.",
-            "type": "Personal",
+            "type": "Professional",
             "tags": ["WEBGL", "THREEJS", "UI"],
             "images": [
                 "lib/assets/images/space-mavericks/1.png"
             ]
         },
         {
-            "id": "p07",
-            "title": "IF-Club",
-            "description": "Developed a project focused on academic integration through the creation of a social network for researchers at IFMA – Campus Caxias. The platform was designed to connect students and professors from different fields, enabling collaboration, idea sharing, and interaction on research and innovation projects. The initiative contributed to improving communication and encouraging interdisciplinary work within the institution.",
+            "id": "p08",
+            "title": "Rocket League",
+            "description": "Trabalho com materiais, shaders e performance em Unreal Engine para um jogo competitivo.",
             "type": "Academic",
-            "tags": ["PROTOTYPE", "USABILITY", "FLUTTER", "UI", "FIREBASE"],
+            "tags": ["UNREAL", "GAME", "3D", "SHADERS"],
             "images": [
-                "lib/assets/images/if-club/0-club.jpeg",
-                "lib/assets/images/if-club/1-club.jpeg",
-                "lib/assets/images/if-club/2-club.jpeg",
-                "lib/assets/images/if-club/3-club.jpeg",
-                "lib/assets/images/if-club/4-club.jpeg"
+                "lib/assets/images/rocket-league/1.png",
+                "lib/assets/images/rocket-league/2.png",
+                "lib/assets/images/rocket-league/3.png"
             ],
-            "link": null
-
+            "link": "https://github.com/cauasousa/rocket-league"
         }
     ]
 }
