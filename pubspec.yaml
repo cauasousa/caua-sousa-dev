@@ -69,6 +69,7 @@ flutter:
       - lib/assets/pdf/
       - lib/assets/images/rocket-league/
       - lib/assets/images/if-club/
+      - lib/assets/images/project_gasmar
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
