@@ -8,13 +8,13 @@
             "type": "Professional",
             "tags": ["NEXT.JS", "TYPESCRIPT", "TAILWIND", "FastAPI", "POSTGRESQL"],
             "images": [
-                "lib/assets/images/gasmar/1.png",
-                "lib/assets/images/gasmar/2.png",
-                "lib/assets/images/gasmar/3.png",
-                "lib/assets/images/gasmar/4.png",
-                "lib/assets/images/gasmar/5.png",
-                "lib/assets/images/gasmar/6.png",
-                "lib/assets/images/gasmar/7.png"
+                "lib/assets/images/project_gasmar/1.png",
+                "lib/assets/images/project_gasmar/2.png",
+                "lib/assets/images/project_gasmar/3.png",
+                "lib/assets/images/project_gasmar/4.png",
+                "lib/assets/images/project_gasmar/5.png",
+                "lib/assets/images/project_gasmar/6.png",
+                "lib/assets/images/project_gasmar/7.png"
 
             ],
             "link": null
