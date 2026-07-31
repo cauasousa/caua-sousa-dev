@@ -27,11 +27,11 @@ class _AiChatBubbleState extends State<AiChatBubble>
 
   final List<String> _apiUrls = [
     'http://127.0.0.1:8000/chat', // Local 
-    'https://your-dominio-of-the-deploy.com/chat', // Deploy 
+    'https://portfolio-ai-backend-xxm2.onrender.com/chat', // Deploy 
   ];
 
   
-  final int _selectedApiIndex = 0;
+  final int _selectedApiIndex = 1;
 
   @override
   void initState() {
