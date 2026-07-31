@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AiChatBubble extends StatefulWidget {
   const AiChatBubble({super.key});
@@ -19,7 +20,18 @@ class _AiChatBubbleState extends State<AiChatBubble>
   late final AnimationController _thinkingController;
 
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController(); 
   final List<_ChatMessage> _messages = [];
+
+  static const int _maxCharacterLimit = 150;
+
+  final List<String> _apiUrls = [
+    'http://127.0.0.1:8000/chat', // Local 
+    'https://your-dominio-of-the-deploy.com/chat', // Deploy 
+  ];
+
+  
+  final int _selectedApiIndex = 0;
 
   @override
   void initState() {
@@ -49,9 +61,12 @@ class _AiChatBubbleState extends State<AiChatBubble>
       Future.delayed(const Duration(milliseconds: 400), () {
         if (mounted) {
           setState(() {
-            _messages.add(_ChatMessage(status: MessageStatus.thinking));
+            _messages.add(_ChatMessage(
+              text: "Hi! I'm Cauã's AI assistant. Ask me about his projects or skills!",
+              status: MessageStatus.text,
+            ));
           });
-          _simulateApiCall("Hi! I'm Cauã's AI assistant. Ask me about his projects or skills!");
+          _scrollToBottom();
         }
       });
     });
@@ -62,6 +77,7 @@ class _AiChatBubbleState extends State<AiChatBubble>
     _panelController.dispose();
     _thinkingController.dispose();
     _textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -70,38 +86,69 @@ class _AiChatBubbleState extends State<AiChatBubble>
       _isOpen = !_isOpen;
       if (_isOpen) {
         _panelController.forward();
+        Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
       } else {
         _panelController.reverse();
       }
     });
   }
 
-  Future<void> _simulateApiCall(String expectedResponse) async {
-    try {
-      // TODO: Replace this with actual API call to your FastAPI backend
-      await Future.delayed(const Duration(seconds: 1)).timeout(
-        const Duration(seconds: 30),
-        onTimeout: () {
-          throw TimeoutException('A requisição excedeu o limite de 30 segundos');
-        },
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 80.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
       );
+    }
+  }
 
-      if (mounted) {
-        setState(() {
-          if (_messages.isNotEmpty && _messages.last.status == MessageStatus.thinking) {
-            _messages.last.text = expectedResponse;
-            _messages.last.status = MessageStatus.text;
-          }
-        });
+  Future<void> _sendApiMessage(String userMessage) async {
+    final apiUrl = _apiUrls[_selectedApiIndex];
+
+    try {
+      
+      final responses = await Future.wait([
+        http.post(
+          Uri.parse(apiUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'message': userMessage}),
+        ).timeout(
+          const Duration(seconds: 30),
+          onTimeout: () {
+            throw TimeoutException('The request exceeded the time limit. Please try again later.');
+          },
+        ),
+        Future.delayed(const Duration(seconds: 1)), 
+      ]);
+
+      final response = responses[0] as http.Response;
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        final aiResponse = data['response'] ?? "No response generated.";
+
+        if (mounted) {
+          setState(() {
+            if (_messages.isNotEmpty && _messages.last.status == MessageStatus.thinking) {
+              _messages.last.text = aiResponse;
+              _messages.last.status = MessageStatus.text;
+            }
+          });
+          _scrollToBottom();
+        }
+      } else {
+        throw Exception('Error in server: ${response.statusCode}');
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           if (_messages.isNotEmpty && _messages.last.status == MessageStatus.thinking) {
-            _messages.last.text = "Sorry, I couldn't process that. Please try again later.";
+            _messages.last.text = "Sorry, I couldn't process that right now. Please make sure the backend is running.";
             _messages.last.status = MessageStatus.error;
           }
         });
+        _scrollToBottom();
       }
     }
   }
@@ -115,8 +162,11 @@ class _AiChatBubbleState extends State<AiChatBubble>
       _textController.clear();
       _messages.add(_ChatMessage(status: MessageStatus.thinking));
     });
+    
+    
+    _scrollToBottom();
 
-    _simulateApiCall("This is a simulated response. Connect me to your FastAPI backend!");
+    _sendApiMessage(text);
   }
 
   @override
@@ -188,6 +238,7 @@ class _AiChatBubbleState extends State<AiChatBubble>
 
                     Expanded(
                       child: ListView.builder(
+                        controller: _scrollController, 
                         padding: const EdgeInsets.all(16),
                         itemCount: _messages.length,
                         itemBuilder: (context, index) {
@@ -209,8 +260,10 @@ class _AiChatBubbleState extends State<AiChatBubble>
                             child: TextField(
                               controller: _textController,
                               style: const TextStyle(color: Colors.white, fontSize: 14),
+                              maxLength: _maxCharacterLimit,
                               decoration: InputDecoration(
                                 hintText: 'Ask something...',
+                                counterText: "",
                                 hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.3)),
                                 filled: true,
                                 fillColor: const Color(0xFF1E293B),

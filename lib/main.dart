@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'core/utils/theme.dart';
 import 'feature/presentation/bloc/custom_navbar/custom_navbar_bloc.dart';
 import 'feature/presentation/pages/screen_home_page.dart';
