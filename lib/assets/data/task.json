@@ -35,7 +35,7 @@
         },
         {
             "id": "p03",
-            "title": "Flutter Virtual Store",
+            "title": "Virtual Store",
             "description": "Development of a full-featured e-commerce mobile application using Flutter and Firebase. I worked on building the complete product catalog, shopping cart flow, user authentication with Firebase Auth, real-time database integration with Cloud Firestore, and order tracking features.",
             "type": "Academic",
             "tags": ["FLUTTER", "DART", "FIREBASE", "CLOUD FIRESTORE", "FIREBASE AUTH"],
