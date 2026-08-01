@@ -14,8 +14,6 @@
                 "lib/assets/images/project_gasmar/4.png",
                 "lib/assets/images/project_gasmar/5.png",
                 "lib/assets/images/project_gasmar/6.png"
-                
-
             ],
             "link": null
         },
@@ -37,13 +35,25 @@
         },
         {
             "id": "p03",
-            "title": "The Boys Trigger Warning",
-            "description": "Experiencia VR com foco em combate dinamico e interacao por movimento.",
+            "title": "Flutter Virtual Store",
+            "description": "Development of a full-featured e-commerce mobile application using Flutter and Firebase. I worked on building the complete product catalog, shopping cart flow, user authentication with Firebase Auth, real-time database integration with Cloud Firestore, and order tracking features.",
             "type": "Academic",
-            "tags": ["UNITY", "VR", "GAME"],
+            "tags": ["FLUTTER", "DART", "FIREBASE", "CLOUD FIRESTORE", "FIREBASE AUTH"],
             "images": [
-                "lib/assets/images/trigger-warning/1.png"
-            ]
+                "lib/assets/images/flutter_clothings/01.png",
+                "lib/assets/images/flutter_clothings/02.png",
+                "lib/assets/images/flutter_clothings/03.png",
+                "lib/assets/images/flutter_clothings/04.png",
+                "lib/assets/images/flutter_clothings/05.png",
+                "lib/assets/images/flutter_clothings/06.png",
+                "lib/assets/images/flutter_clothings/07.png",
+                "lib/assets/images/flutter_clothings/08.png",
+                "lib/assets/images/flutter_clothings/09.png",
+                "lib/assets/images/flutter_clothings/10.png",
+                "lib/assets/images/flutter_clothings/11.png",
+                "lib/assets/images/flutter_clothings/12.png"
+            ],
+            "link": "https://github.com/cauasousa/Flutter-Projects/tree/main/virtualstore"
         },
         {
             "id": "p04",
