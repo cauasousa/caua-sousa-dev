@@ -34,58 +34,58 @@ class BrandLogo extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  onEnter: (_) => context
-                      .read<BrandLogoBloc>()
-                      .onEvent(const BrandLogoCsHoverChanged(true)),
-                  onExit: (_) => context
-                      .read<BrandLogoBloc>()
-                      .onEvent(const BrandLogoCsHoverChanged(false)),
-                  child: AnimatedScale(
-                    duration: AppDurations.fast,
-                    curve: AppCurves.standard,
-                    scale:
-                        state.isPressed ? 0.96 : (state.isCsHovered ? 1.03 : 1),
-                    child: AnimatedContainer(
-                      duration: AppDurations.base,
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    onEnter: (_) => context
+                        .read<BrandLogoBloc>()
+                        .onEvent(const BrandLogoCsHoverChanged(true)),
+                    onExit: (_) => context
+                        .read<BrandLogoBloc>()
+                        .onEvent(const BrandLogoCsHoverChanged(false)),
+                    child: AnimatedScale(
+                      duration: AppDurations.fast,
                       curve: AppCurves.standard,
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF10B981).withValues(
-                              alpha: isCsInteractive ? 0.45 : 0.3,
+                      scale:
+                          state.isPressed ? 0.96 : (state.isCsHovered ? 1.03 : 1),
+                      child: AnimatedContainer(
+                        duration: AppDurations.base,
+                        curve: AppCurves.standard,
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF10B981).withValues(
+                                alpha: isCsInteractive ? 0.45 : 0.3,
+                              ),
+                              blurRadius: isCsInteractive ? 22 : 15,
+                              offset: Offset(0, isCsInteractive ? 6 : 4),
                             ),
-                            blurRadius: isCsInteractive ? 22 : 15,
-                            offset: Offset(0, isCsInteractive ? 6 : 4),
-                          ),
-                        ],
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF34D399),
-                            Color(0xFF06B6D4),
                           ],
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF34D399),
+                              Color(0xFF06B6D4),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'CS',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        child: const Center(
+                          child: Text(
+                            'CS',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
+                  const SizedBox(width: 12),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   onEnter: (_) => context
