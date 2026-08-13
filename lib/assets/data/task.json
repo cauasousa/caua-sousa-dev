@@ -49,54 +49,11 @@
                 "lib/assets/images/flutter_clothings/08.png",
                 "lib/assets/images/flutter_clothings/09.png",
                 "lib/assets/images/flutter_clothings/10.png",
-                "lib/assets/images/flutter_clothings/11.png",
-                "lib/assets/images/flutter_clothings/12.png"
+                "lib/assets/images/flutter_clothings/11.png"
             ],
             "link": "https://github.com/cauasousa/Flutter-Projects/tree/main/virtualstore"
-        },
-        {
-            "id": "p04",
-            "title": "Flower Lake",
-            "description": "Sandbox visual com compute shader, vegetacao procedural e renderizacao customizada.",
-            "type": "Professional",
-            "tags": ["UNITY", "3D", "SHADER"],
-            "images": [
-                "lib/assets/images/flower-lake/1.png"
-            ]
-        },
-        {
-            "id": "p05",
-            "title": "s Fastback WebGL",
-            "description": "Componente 3D interativo para campanha web com visualizacao em tempo real.",
-            "type": "Academic",
-            "tags": ["THREEJS", "WEBGL", "3D"],
-            "images": [
-                "lib/assets/images/fastback/1.png"
-            ],
-            "link": "https://fastback-demo.example.com"
-        },
-        {
-            "id": "p06",
-            "title": "Space Mavericks",
-            "description": "Landing interativa com foco em performance e impacto visual cinematografico.",
-            "type": "Professional",
-            "tags": ["WEBGL", "THREEJS", "UI"],
-            "images": [
-                "lib/assets/images/space-mavericks/1.png"
-            ]
-        },
-        {
-            "id": "p08",
-            "title": "Rocket League",
-            "description": "Trabalho com materiais, shaders e performance em Unreal Engine para um jogo competitivo.",
-            "type": "Academic",
-            "tags": ["UNREAL", "GAME", "3D", "SHADERS"],
-            "images": [
-                "lib/assets/images/rocket-league/1.png",
-                "lib/assets/images/rocket-league/2.png",
-                "lib/assets/images/rocket-league/3.png"
-            ],
-            "link": "https://github.com/cauasousa/rocket-league"
         }
+        
+        
     ]
 }

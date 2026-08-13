@@ -129,9 +129,11 @@ class CustomNavbar extends StatelessWidget {
                                   ),
                                 ),
                               if (!isMobile)
-                                const CustomButton(
+                                CustomButton(
                                   height: 40,
                                   width: 180,
+                                  onPressed: () =>
+                                      _onNavTap(context, NavbarSection.contact),
                                 )
                               else
                                 IconButton(
@@ -203,6 +205,8 @@ class CustomNavbar extends StatelessWidget {
                                   child: CustomButton(
                                     height: 44,
                                     width: double.infinity,
+                                    onPressed: () => _onNavTap(
+                                        context, NavbarSection.contact),
                                   ),
                                 ),
                               ],

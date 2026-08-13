@@ -18,25 +18,25 @@ class AboutCubit extends Cubit<AboutState> {
         lines: [
           CapabilityLine(
             'Mobile',
-            'Building performant, native experiences',
+            'Mobile & Cross-Platform Development',
             badges: ['Flutter', 'Dart'],
             badgeColor: Color(0xFF60A5FA),
           ),
           CapabilityLine(
             'Backend',
-            'Scalable APIs and real-time services',
-            badges: ['Python', 'FastAPI', 'Django', 'Flask'],
+            'Scalable APIs & Real-Time Services',
+            badges: ['FastAPI', 'Python', 'Django', 'Flask'],
             badgeColor: Color(0xFF34D399),
           ),
           CapabilityLine(
             'Frontend',
-            'Interactive and responsive interfaces',
-            badges: ['HTML/CSS', 'JavaScript', 'React', 'Next.js'],
+            'Web Interfaces & Frontend Frameworks',
+            badges: ['Next.js', 'TypeScript', 'Tailwind CSS', 'React'],
             badgeColor: Color(0xFFE6B9F2),
           ),
           CapabilityLine(
             'Database',
-            'Data architecture and optimization',
+            'Database Architecture & Cloud Services',
             badges: ['Firebase', 'SQL', 'MongoDB', 'PostgreSQL'],
             badgeColor: Color(0xFFFBBF24),
           ),
