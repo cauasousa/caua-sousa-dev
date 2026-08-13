@@ -635,7 +635,6 @@ class _ProjectCardState extends State<_ProjectCard> {
                             ),
                           ),
                         ),
-                        
                       ],
                     ),
                   ),
@@ -752,25 +751,25 @@ class _ProjectSkeletonCardState extends State<_ProjectSkeletonCard>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 160,
+                  height: 104,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: opacity + 0.08),
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Container(
                   width: 120,
-                  height: 14,
+                  height: 12,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: opacity + 0.08),
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 8),
                 Container(
                   width: 180,
-                  height: 12,
+                  height: 10,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: opacity + 0.05),
                     borderRadius: BorderRadius.circular(999),
@@ -784,7 +783,6 @@ class _ProjectSkeletonCardState extends State<_ProjectSkeletonCard>
     );
   }
 }
-
 
 class ProjectDetailsDialog extends StatelessWidget {
   const ProjectDetailsDialog({super.key, required this.project});
@@ -935,7 +933,8 @@ class ProjectDetailsDialog extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(
-                                maxHeight: 220, // <--- Ajuste este valor (ex: 180, 220, 250) até ficar do tamanho desejado
+                                maxHeight:
+                                    220, // <--- Ajuste este valor (ex: 180, 220, 250) até ficar do tamanho desejado
                               ),
                               child: HoverExpandableImage(
                                 imagePath: imagePath,

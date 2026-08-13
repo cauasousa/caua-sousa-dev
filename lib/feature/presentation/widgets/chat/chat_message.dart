@@ -2,9 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class AiChatBubble extends StatefulWidget {
   const AiChatBubble({super.key});
+
+  static String resolveResponseMessage(Map<String, dynamic> payload) {
+    final isDuplicate = payload['is_duplicate'] == true;
+    if (isDuplicate) {
+      return 'Contact Cauã for more information.';
+    }
+
+    return (payload['response'] as String?) ?? 'No response generated.';
+  }
 
   @override
   State<AiChatBubble> createState() => _AiChatBubbleState();
@@ -31,6 +41,16 @@ class _AiChatBubbleState extends State<AiChatBubble>
   ];
 
   final int _selectedApiIndex = 1;
+  final String _sessionId = const Uuid().v4();
+
+  String get _selectedApiUrl {
+    if (_apiUrls.isEmpty) {
+      throw StateError('No API URLs configured.');
+    }
+
+    final safeIndex = _selectedApiIndex.clamp(0, _apiUrls.length - 1);
+    return _apiUrls[safeIndex];
+  }
 
   @override
   void initState() {
@@ -110,14 +130,17 @@ class _AiChatBubbleState extends State<AiChatBubble>
   }
 
   Future<void> _sendApiMessage(String userMessage) async {
-    final apiUrl = _apiUrls[_selectedApiIndex];
+    final apiUrl = _selectedApiUrl;
 
     try {
       final responses = await Future.wait([
         http
             .post(
           Uri.parse(apiUrl),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Session-ID': _sessionId,
+          },
           body: jsonEncode({'message': userMessage}),
         )
             .timeout(
@@ -134,7 +157,7 @@ class _AiChatBubbleState extends State<AiChatBubble>
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
-        final aiResponse = data['response'] ?? "No response generated.";
+        final aiResponse = AiChatBubble.resolveResponseMessage(data);
 
         if (mounted) {
           setState(() {
