@@ -155,7 +155,7 @@ class _AiChatBubbleState extends State<AiChatBubble>
           if (_messages.isNotEmpty &&
               _messages.last.status == MessageStatus.thinking) {
             _messages.last.text =
-                "Sorry, I couldn't process that right now. Please make sure the backend is running.";
+                "Sorry, I couldn't process that right now. Please try talk with Cauã directly at his email: llkauall055@gmail.com.";
             _messages.last.status = MessageStatus.error;
           }
         });
