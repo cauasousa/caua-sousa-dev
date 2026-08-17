@@ -1,6 +1,35 @@
 {
     "projects": [
-        
+        {
+            "id": "p05",
+            "title": "Vestro Sales",
+            "description": "An AI-driven sales operations platform combining e-commerce, admin management, ML-powered demand forecasting, and a Gemini-backed business assistant.",
+            "type": "Academic",
+            "tags": [
+                "NEXT.JS",
+                "TYPESCRIPT",
+                "TAILWIND",
+                "FASTAPI",
+                "POSTGRESQL",
+                "SUPABASE",
+                "LIGHTGBM",
+                "GEMINI"
+            ],
+            "images": [
+                "lib/assets/images/vestro-sales/01-home-1.png",
+                "lib/assets/images/vestro-sales/01-home-2.png",
+                "lib/assets/images/vestro-sales/02-shop.png",
+                "lib/assets/images/vestro-sales/03-dashboard.png",
+                "lib/assets/images/vestro-sales/04-products.png",
+                "lib/assets/images/vestro-sales/05-orders.png",
+                "lib/assets/images/vestro-sales/06-planning-1.png",
+                "lib/assets/images/vestro-sales/06-planning-2.png",
+                "lib/assets/images/vestro-sales/07-users.png",
+                "lib/assets/images/vestro-sales/08-support-chat.png",
+                "lib/assets/images/vestro-sales/09-ai-assistant.png"
+            ],
+            "link": "https://github.com/cauasousa/Vestro-Sales"
+        },
         {
             "id": "p00",
             "title": "Intelligent Tool Control and History System",
